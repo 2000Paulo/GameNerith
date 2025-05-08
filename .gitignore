@@ -1,0 +1,39 @@
+#Arquivos gerados pelo unity
+ProjetoGameJam/Temp/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Ll]ibrary/
+[Ll]ogs/
+[Tt]emp/
+[Tt]emplateSettings/
+.DS_Store
+.user
+.userprefs
+.suo
+.swp
+.idea/
+.vscode/
+*.meta
+ProjectSettings/
+
+# Diretórios Unity gerados automaticamente
+Library/
+Temp/
+Obj/
+Logs/
+Build/
+Builds/
+MemoryCaptures/
+
+# Cache e arquivos de lock
+.vscode/
+.DS_Store
+*.csproj.user
+*.userprefs
+*.pidb
+*.suo
+
+# Arquivos temporários
+*.apk
+*.exe
+*.tmp
