@@ -5,7 +5,6 @@ ProjetoGameJam/Temp/
 [Ll]ibrary/
 [Ll]ogs/
 [Tt]emp/
-[Tt]emplateSettings/
 .DS_Store
 .user
 .userprefs
@@ -13,8 +12,6 @@ ProjetoGameJam/Temp/
 .swp
 .idea/
 .vscode/
-*.meta
-ProjectSettings/
 
 # Diretórios Unity gerados automaticamente
 Library/
