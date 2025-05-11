@@ -68,6 +68,7 @@
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\EnemyPatrol.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroComVisao.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\PlayerMovement.cs" />
+    <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\CameraFollow copy.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\VisaoInimigo.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\Sprites\PortalTeleport.cs" />
     <Compile Include="Assets\craftpix-net-453698-free-shinobi-sprites-pixel-art\Samurai\Jogador.cs" />

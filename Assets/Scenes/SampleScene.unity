@@ -856,6 +856,7 @@ GameObject:
   - component: {fileID: 284158873}
   - component: {fileID: 284158872}
   - component: {fileID: 284158871}
+  - component: {fileID: 284158874}
   m_Layer: 3
   m_Name: Player2
   m_TagString: Player
@@ -949,7 +950,7 @@ Transform:
   m_GameObject: {fileID: 284158867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.29, y: -6.39, z: 0}
+  m_LocalPosition: {x: -3.1, y: -3.26, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1033,6 +1034,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 2
   runSpeed: 4
+  jumpSpeed: 5
+--- !u!70 &284158874
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284158867}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -1.26}
+  m_Size: {x: 1.87, y: 0.54}
+  m_Direction: 1
 --- !u!1 &309906362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3147,10 +3186,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.014532244
-    y: 0
-    width: 0.97022915
-    height: 1
+    x: 0
+    y: 0.3404711
+    width: 1
+    height: 0.3195086
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -3222,7 +3261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31a3581a2a47804c866f0bbc7a33556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 284158870}
+  Target: {fileID: 284158870}
   followSpeed: 5
 --- !u!1 &540965448
 GameObject:
