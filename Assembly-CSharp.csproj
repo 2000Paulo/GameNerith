@@ -68,11 +68,21 @@
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\EnemyPatrol.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroComVisao.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\PlayerMovement.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\CameraFollow copy.cs" />
+=======
+    <Compile Include="Assets\Fase2\ShurikenMovel.cs" />
+    <Compile Include="Assets\Fase2\GatilhoLapide.cs" />
+>>>>>>> 922070a (Fase 2)
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\VisaoInimigo.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\Sprites\PortalTeleport.cs" />
+    <Compile Include="Assets\Fase2\CaixaTexto.cs" />
     <Compile Include="Assets\craftpix-net-453698-free-shinobi-sprites-pixel-art\Samurai\Jogador.cs" />
+    <Compile Include="Assets\Fase2\ElevadorDeTerra.cs" />
+    <Compile Include="Assets\Fase2\TesteAbrirPortao.cs" />
+    <Compile Include="Assets\Fase2\PortaoMovel.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroPatrulha.cs" />
+    <Compile Include="Assets\Fase2\PlataformaMovel.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\Flecha.cs" />
     <Compile Include="Assets\Scripts\Helpers\DbDebugger.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\CameraFollow.cs" />
