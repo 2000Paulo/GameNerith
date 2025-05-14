@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ElevadorDeTerra : MonoBehaviour
 {
-    public int alturaMaxima = 10;
+    public int alturaMaxima = 15;
     public float intervalo = 1.5f;
     public float velocidadeSubida = 2f;
 
@@ -41,36 +41,45 @@ public class ElevadorDeTerra : MonoBehaviour
     {
         yield return new WaitForSeconds(intervalo);
 
-        // só inicia se o jogador ainda estiver em cima
         if (jogadorEmCima != null)
         {
             rotinaElevador = StartCoroutine(ControlarElevador());
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    // SUBSTITUIR TRIGGER POR COLISÃO
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
-            jogadorEmCima = other.transform;
+            jogadorEmCima = collision.transform;
             jogadorEmCima.SetParent(transform);
             StartCoroutine(EsperarEIniciarElevador());
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnCollisionExit2D(Collision2D collision)
     {
-        if (other.CompareTag("Player") && jogadorEmCima != null)
+        if (collision.collider.CompareTag("Player") && jogadorEmCima != null)
         {
-            jogadorEmCima.SetParent(null);
-            jogadorEmCima = null;
+            StartCoroutine(SoltarPlayerNoProximoFrame());
 
-            // se o jogador sair antes de começar, cancela
             if (rotinaElevador != null)
             {
                 StopCoroutine(rotinaElevador);
                 rotinaElevador = null;
             }
+        }
+    }
+
+    IEnumerator SoltarPlayerNoProximoFrame()
+    {
+        yield return null;
+
+        if (jogadorEmCima != null)
+        {
+            jogadorEmCima.SetParent(null);
+            jogadorEmCima = null;
         }
     }
 }

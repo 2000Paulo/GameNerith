@@ -59,7 +59,7 @@ public class Jogador : MonoBehaviour
         oAnimator.SetBool("isWalking", isWalking);
         oAnimator.SetBool("isRunning", isRunning);
 
-        if (yAxiesInputDirection != 0 && isGrounded) {
+        if (yAxiesInputDirection > 0 && isGrounded) {
             oRigidBody.linearVelocity = new Vector2(oRigidBody.linearVelocity.x, jumpSpeed);
             isGrounded = false;
             oAnimator.SetBool("isJumping", !isGrounded);
@@ -89,6 +89,9 @@ public class Jogador : MonoBehaviour
 
     private void OnTriggerEnter2D (Collider2D collision) 
     {
+        // Debug.Log("Objeto colisão");
+        // DbDebugger.DebugObject(collision);
+
         isGrounded = true;
         oAnimator.SetBool("isJumping", !isGrounded);
     }
