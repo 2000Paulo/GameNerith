@@ -1012,6 +1012,7 @@ GameObject:
   - component: {fileID: 284158871}
   - component: {fileID: 284158874}
   - component: {fileID: 284158875}
+  - component: {fileID: 284158876}
   m_Layer: 3
   m_Name: Player2
   m_TagString: Player
@@ -1105,7 +1106,7 @@ Transform:
   m_GameObject: {fileID: 284158867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.56, y: -6.05, z: 0}
+  m_LocalPosition: {x: 73.56, y: -6.37, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1240,6 +1241,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!114 &284158876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284158867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737ba059e85037b4db8f0d5a1639d87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallThreshold: -999
+  damageMultiplier: 5
 --- !u!1 &309906362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3354,10 +3369,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.06332453
+    x: 0.067722075
     y: 0
-    width: 0.87266684
-    height: 0.99999994
+    width: 0.8652399
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -3661,7 +3676,7 @@ GameObject:
   - component: {fileID: 548776440}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
