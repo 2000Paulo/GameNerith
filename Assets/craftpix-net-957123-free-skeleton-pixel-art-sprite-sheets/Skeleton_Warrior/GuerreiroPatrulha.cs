@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using DbHelpers;
 
 public class GuerreiroPatrulha : MonoBehaviour
 {
@@ -8,25 +9,43 @@ public class GuerreiroPatrulha : MonoBehaviour
     public int leftSteps = 2;
     public int rightSteps = 2;
 
-    private Animator anim;
+    private Animator oAnimator;
     private Vector2 startPosition;
     private Vector2 targetPosition;
     private bool movingLeft = true;
+
+    // ESTADOS
     private bool isWaiting = false;
+    private bool isHurt = false;
     private float waitCounter = 0f;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        oAnimator = GetComponent<Animator>();
         startPosition = transform.position;
         SetNextTarget();
     }
 
     private void Update()
     {
+        // DbDebugger.DebugObject()
+        //  Input.GetKey(KeyCode.LeftShift)
+        var bApertouEspaco = Input.GetKey(KeyCode.Space);
+        // Debug.Log(bApertouEspaco);
+
+        if (bApertouEspaco)
+        {
+            isHurt = true;
+        }
+        else
+        {
+            isHurt = false;
+         }
+        oAnimator.SetBool("isHurt", isHurt);
+        //  Debug.Log(Input.GetKey(KeyCode.Space));
         if (isWaiting)
         {
-            anim.SetBool("isWalking", false);
+            oAnimator.SetBool("isHurt", false);
             waitCounter -= Time.deltaTime;
 
             if (waitCounter <= 0f)
@@ -38,7 +57,7 @@ public class GuerreiroPatrulha : MonoBehaviour
         }
         else
         {
-            anim.SetBool("isWalking", true);
+            oAnimator.SetBool("isWalking", true);
 
             // Direção visual
             Vector3 scale = transform.localScale;

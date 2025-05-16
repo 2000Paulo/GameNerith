@@ -1319,9 +1319,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.067722075
+    x: 0.054347828
     y: 0
-    width: 0.8652399
+    width: 0.89110315
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -96645,6 +96645,7 @@ MonoBehaviour:
   walkSpeed: 2
   runSpeed: 4
   jumpSpeed: 7
+  attackDuration: 0.5
 --- !u!95 &1982446013
 Animator:
   serializedVersion: 7
@@ -96731,7 +96732,7 @@ Transform:
   m_GameObject: {fileID: 1982446009}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.008385552, w: 0.99996483}
-  m_LocalPosition: {x: 64, y: -37.3, z: 0}
+  m_LocalPosition: {x: 47.8, y: -52.4, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
