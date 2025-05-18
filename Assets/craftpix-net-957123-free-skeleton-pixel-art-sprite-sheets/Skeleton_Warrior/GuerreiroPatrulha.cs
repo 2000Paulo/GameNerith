@@ -46,6 +46,9 @@ public class GuerreiroPatrulha : MonoBehaviour
         {
             vidaAtual -= 10;
         }
+        // a vida do inimigo só pode estar entre 0 e a vida máxima
+        vidaAtual = Mathf.Clamp(vidaAtual, 0, vidaMaxima);
+        // vidaAtual = Math.Clamp()
 
 
         // DbDebugger.DebugObject()

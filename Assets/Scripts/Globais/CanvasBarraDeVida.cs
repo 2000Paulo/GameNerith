@@ -9,81 +9,59 @@ public class CanvasBarraDeVida : MonoBehaviour
     public Color CorVidaBaixa;
     public Vector3 Altura;
 
-    // private Camera oCameraPrincipal;
+    private int ultimoComprimentoDeTela, ultimaAlturaDeTela;
 
-    // // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-    //     oCameraPrincipal = Camera.main;
-    // }
 
-    // Update is called once per frame
+    void Start()
+    {
+        AjustaTamanhoDaBarraDeVida();
+    }
+
+
     void Update()
     {
+        Debug.Log(Screen.width + " " + Screen.height);
+        // Controle dara renderizar ou não a barra de vida
         var PosicaoInimigoOuPlayer = transform.parent.position;
         Vector3 NovaPosicaoSlider = PosicaoInimigoOuPlayer + Altura;
         Vector3 NovaPosicaoSlider2d = Camera.main.WorldToScreenPoint(NovaPosicaoSlider);
         SliderBarraDeVida.transform.position = NovaPosicaoSlider2d;
 
-        // Debug.Log("ViewPort");
-        // Xinicial = 0 Yinicial = 0 Xfinal = 1 Yfinal = 1
         Vector3 PosicaoInimigoOuPlayerCameraVisivel = Camera.main.WorldToViewportPoint(PosicaoInimigoOuPlayer);
 
         bool inimigoEstaVisivel =
             0 <= PosicaoInimigoOuPlayerCameraVisivel.x && PosicaoInimigoOuPlayerCameraVisivel.x <= 1 &&
             0 <= PosicaoInimigoOuPlayerCameraVisivel.y && PosicaoInimigoOuPlayerCameraVisivel.y <= 1;
 
-
-
-        // SliderBarraDeVida.isActiveAndEnabled = inimigoEstaVisivel;
         SliderBarraDeVida.gameObject.active = inimigoEstaVisivel;
 
-        // DbDebugger.DebugObject(SliderBarraDeVida.gameObject.active);
+        // caso o tamanho de tela mude, ajusta o tamanho da barra de vida
+        int comprimentoDeTelaAtual = Screen.width;
+        int alturaDeTelaAtual =  Screen.height;
+        if (
+            comprimentoDeTelaAtual != ultimoComprimentoDeTela ||
+            alturaDeTelaAtual != ultimaAlturaDeTela
+        ) {
+            ultimoComprimentoDeTela = comprimentoDeTelaAtual;
+            ultimaAlturaDeTela = alturaDeTelaAtual;
+            AjustaTamanhoDaBarraDeVida();
+        }
+    }
 
+    private void AjustaTamanhoDaBarraDeVida()
+    {
+        // Definindo, com base no tamanho da tela, o comprimento e a algura da barra de vida.
+        RectTransform oTamanhoBarraDeVida = SliderBarraDeVida.GetComponent<RectTransform>();
+        // Tais valores foram escolhidos pois, em uma tela de jogo de 816 x 468, o comprimento x altura que me agradaram foi : 30 x 7
+        // Então para conseguir o comprimento equivalente para diferentes tipos de tela foi só dividir 816 / 30 (valor de comprimento que me agradou) = 27.2 
+        // e consegui o divisor para os outros tamanhos de tela. A mesma coisa foi realizada para a altura.
+        float NovoComprimento = Screen.width / 27.2f;
+        float NovaAltura = Screen.height / 68f;
 
-        // Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.transform.position.z);
-        // Debug.Log("screenCenter "+screenCenter);
-
-        // Vector3 screenHeight = new Vector3(Screen.width / 2, Screen.height, Camera.main.transform.position.z);
-        // Debug.Log("screenHeight " + screenHeight);
-
-        // Vector3 screenWidth = new Vector3(Screen.width, Screen.height/2, Camera.main.transform.position.z);
-        // Debug.Log("screenWidth " + screenWidth);
-
-        // Vector3 goscreen = Camera.main.WorldToScreenPoint(transform.position);
-        // Debug.Log("GoPos " + goscreen);
-
-        // float distX = Vector3.Distance(new Vector3(Screen.width / 2, 0f, 0f), new Vector3(goscreen.x, 0f,0f));
-        // Debug.Log("distX " + distX);
-
-        // float distY = Vector3.Distance(new Vector3(0f, Screen.height / 2, 0f), new Vector3(0f, goscreen.y, 0f));
-        // Debug.Log("distY " + distY);
-
-        // if(distX > Screen.width / 2 || distY > Screen.height / 2)
-        // {
-        //     Debug.Log("Visivel");
-        // }
-
-        // DbDebugger.DebugObject(Screen.width, Screen.height);
-        // Debug.Log("Tela");
-        // Debug.Log("Comprimento : " + Screen.width + " Altura: " + Screen.height);
-        // Debug.Log("Inimigo");
-
-        // Vector3 CameraVisivel = Camera.main.WorldToScreenPoint( Camera.main.transform.position);
-        // Vector3 PosicaoPosicaoInimigoOuPlayer2d = Camera.main.WorldToScreenPoint(transform.parent.position);
-
-        // Debug.Log("Camera Visivel");
-        // Debug.Log(CameraVisivel);
-
-        // Debug.Log("PosicaoPosicaoInimigoOuPlayer2d");
-        // Debug.Log(PosicaoPosicaoInimigoOuPlayer2d);
-
-        // Vector3 PosicaoCamera2d = Camera.main.WorldToScreenPoint(Camera.main.transform.position);
-        // Debug.Log("PosicaoCamera2d");
-        // Debug.Log(PosicaoCamera2d);
-        // Debug.Log("PosicaoPosicaoInimigoOuPlayer2d");
-        // Debug.Log(PosicaoPosicaoInimigoOuPlayer2d);
-        // DbDebugger.DebugObject(PosicaoCamera);
+        oTamanhoBarraDeVida.sizeDelta = new Vector2(
+            NovoComprimento, // width 
+            NovaAltura // height
+        );
     }
 
 }
