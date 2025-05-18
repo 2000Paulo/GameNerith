@@ -42,81 +42,14 @@ public class Jogador : MonoBehaviour
 
     private void Update()
     {
-        // var oAnimatorStateInfo = oAnimator.GetCurrentAnimatorStateInfo(0);
-        // var estaEmAnimacaoDeAtaque = oAnimatorStateInfo.IsName("Attack") && oAnimatorStateInfo.normalizedTime < 1f ? true : false;
-
-        // Debug.Log(oAnimator.layerCount);
-        // DbDebugger.DebugObject(oAnimator);
-
-        int iBaseLayer = 0;
-        var oAnimacaoAtiva = oAnimator.GetCurrentAnimatorStateInfo(iBaseLayer);
-        int iHashNomeAnimacaoAtiva = oAnimacaoAtiva.shortNameHash;
-        int iHashNomeAnimacaoDesejada = Animator.StringToHash("player_animacao_ataque");
-
-        if (iHashNomeAnimacaoDesejada == iHashNomeAnimacaoAtiva) {
-            Debug.Log("Animação: ATACANDO");
-        }
-
-        // if ()
-
-        // for (int i = 0; i < oAnimator.layerCount; i++)
-        // {
-        //     var oLayer = oAnimator.GetLayerName(i);
-        //     var oAnimatorStateInfo = oAnimator.GetCurrentAnimatorStateInfo(i);
-        //     var oAnimatorNomeHash = oAnimatorStateInfo.nameHash;
-        //     var oAnimatorNomeCurtoHash = oAnimatorStateInfo.shortNameHash;
-
-        //     int oHashAnimacaoDesejada = Animator.StringToHash("idle");
-
-        //     if (
-        //         oHashAnimacaoDesejada == oAnimatorNomeHash ||
-        //         oHashAnimacaoDesejada == oAnimatorNomeCurtoHash
-        //     )
-        //     {
-        //         Debug.Log("parado");
-        //     }
-        //     // var oAnimatorHash = oAnimator.Get
-
-        //     // Debug.Log(oAnimator.GetCurrentAnimatorStateInfo(0));
-        //     // DbDebugger.DebugObject(oAnimator.GetCurrentAnimatorStateInfo(0));
-        // }
-
-        // var bEstaEmAnimacaoDeAtaque = oAnimatorStateInfo.IsName("Attack");
-
-        // if (bEstaEmAnimacaoDeAtaque) {
-        //     DbDebugger.DebugObject( oAnimatorStateInfo);
-
-        // }
-
-
-
-
-
-
-        // if (estaEmAnimacaoDeAtaque)
-        // {
-        //     oBoxCollider2d.enabled = true;
-        //     var bViradoParaEsquerda = oSpriteRenderer.flipX == true;
-
-        //     // inverte a posição do colider para onde o personagem está olhando
-        //     if (bViradoParaEsquerda)
-        //     {
-        //         float nOffsetXParaEsquerda = -Math.Abs(oBoxCollider2d.offset.x);
-        //         oBoxCollider2d.offset = new Vector2(nOffsetXParaEsquerda, oBoxCollider2d.offset.y);
-        //     }
-        //     else
-        //     {
-        //         float nOffsetXParaDireita = Math.Abs(oBoxCollider2d.offset.x);
-        //         oBoxCollider2d.offset = new Vector2(nOffsetXParaDireita, oBoxCollider2d.offset.y);
-
-        //     }
-        // }
-        // else
-        // {
-        //     oBoxCollider2d.enabled = false;
-        // }
-
-
+        /*
+        ********************************************************
+        *   Controller do "Animator" para os estados de:   
+        *   -> Andando
+        *   -> Pulando
+        *   -> Atacando                       
+        ********************************************************
+        */
 
         xAxiesInputDirection = Input.GetAxisRaw("Horizontal");
         yAxiesInputDirection = Input.GetAxisRaw("Vertical");
@@ -127,28 +60,80 @@ public class Jogador : MonoBehaviour
         oAnimator.SetBool("isWalking", isWalking);
         oAnimator.SetBool("isRunning", isRunning);
 
-        // ATAQUE (NOVO)
-        if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
-        {
-            StartCoroutine(RealizarAtaque());
-        }
 
-        if (yAxiesInputDirection > 0 && isGrounded) {
+
+        if (yAxiesInputDirection > 0 && isGrounded)
+        {
             oRigidBody.linearVelocity = new Vector2(oRigidBody.linearVelocity.x, jumpSpeed);
             isGrounded = false;
             oAnimator.SetBool("isJumping", !isGrounded);
         }
 
-        var goLeft  = xAxiesInputDirection < 0 ? true : false;
+        var goLeft = xAxiesInputDirection < 0 ? true : false;
         var goRight = xAxiesInputDirection > 0 ? true : false;
 
-        if (goLeft) {
+        if (goLeft)
+        {
             oSpriteRenderer.flipX = true;
         }
 
-        if (goRight) {
+        if (goRight)
+        {
             oSpriteRenderer.flipX = false;
         }
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
+        {
+            StartCoroutine(RealizarAtaque());
+        }
+
+        /*
+        ********************************************************
+        *   Controller do Collider de Ataque ("BoxCollider2D") *                       
+        ********************************************************
+        */
+        // Por padrão o collider de ataque é desativado
+        // apenas é ativado na animação de ataque
+        oBoxCollider2d.enabled = false;
+        // Ativamos 'isTrigger' para o uso da função 'OnTriggerEnter2D' em inimigos
+        oBoxCollider2d.isTrigger = true;
+
+
+        int iBaseLayer = 0;
+        var oAnimacaoAtiva = oAnimator.GetCurrentAnimatorStateInfo(iBaseLayer);
+        int iHashNomeAnimacaoDesejada = Animator.StringToHash("player_animacao_ataque");
+        int iHashNomeAnimacaoAtiva = oAnimacaoAtiva.shortNameHash;
+
+        if (iHashNomeAnimacaoDesejada == iHashNomeAnimacaoAtiva) {
+            oBoxCollider2d.enabled = true;
+            float nComprimentoSprite = oSpriteRenderer.sprite.rect.width / oSpriteRenderer.sprite.pixelsPerUnit;
+            float nNovoComprimentoCollider = nComprimentoSprite / 2;
+            
+            // O comprimento do collider é metade do tamanho do sprite
+            oBoxCollider2d.size = new Vector2(
+                nNovoComprimentoCollider,
+                oBoxCollider2d.size.y
+            );
+            // O collider está centralizado no ponto x:0 do player, porém ancorado pelo centro do collider
+            // Agora ele continuará no ponto x:0 do player, porém ancorado pela esquerda do collider.
+            // e considerando se ele está virado para esquerda ou para a direita
+            bool estaViradoParaDireita = oSpriteRenderer.flipX == false;
+            if (estaViradoParaDireita) {
+                float nOffsetXParaDireita = Math.Abs(nNovoComprimentoCollider / 2);
+                oBoxCollider2d.offset = new Vector2(
+                    nOffsetXParaDireita,
+                    oBoxCollider2d.offset.y
+                );
+            } else {
+                float nOffsetXParaEsquerda = -Math.Abs(nNovoComprimentoCollider / 2);
+                oBoxCollider2d.offset = new Vector2(
+                    nOffsetXParaEsquerda,
+                    oBoxCollider2d.offset.y
+                );
+            }
+        }
+
     }
 
     private void FixedUpdate()

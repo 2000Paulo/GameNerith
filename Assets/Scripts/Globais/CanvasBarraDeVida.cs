@@ -14,7 +14,18 @@ public class CanvasBarraDeVida : MonoBehaviour
 
     void Start()
     {
+        // Utiliza apenas números inteiros
+        SliderBarraDeVida.wholeNumbers = true;
+        // A vida mínima é 0
+        SliderBarraDeVida.minValue = 0;
+
         AjustaTamanhoDaBarraDeVida();
+    }
+
+    public void AtualizaVida(int vidaAtual, int vidaMaxima)
+    {
+        SliderBarraDeVida.value = vidaAtual;
+        SliderBarraDeVida.maxValue = vidaMaxima;
     }
 
 

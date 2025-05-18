@@ -25,50 +25,27 @@ public class GuerreiroPatrulha : MonoBehaviour
     private bool isHurt = false;
     private float waitCounter = 0f;
 
+    public float nTempoAnimacaoTomaDano;
+
     private void Start()
     {
         oAnimator = GetComponent<Animator>();
         startPosition = transform.position;
         SetNextTarget();
+        // Debug.Log("Tempo de animacao: ");
+        // Debug.Log(nTempoAnimacaoTomaDano);
+        DefineTempoDasAnimacoes();
+        // Debug.Log(nTempoAnimacaoTomaDano);
+
+
     }
 
     private void Update()
     {
-        bool bEstaApertandoBotaoEsquerdoMouse = Input.GetMouseButton(0);
-        bool bEstaApertandoBotaoDireitoMouse = Input.GetMouseButton(1);
 
-        if (bEstaApertandoBotaoEsquerdoMouse)
-        {
-            vidaAtual += 10;
-        }
-
-        if (bEstaApertandoBotaoDireitoMouse)
-        {
-            vidaAtual -= 10;
-        }
-        // a vida do inimigo só pode estar entre 0 e a vida máxima
-        vidaAtual = Mathf.Clamp(vidaAtual, 0, vidaMaxima);
-        // vidaAtual = Math.Clamp()
-
-
-        // DbDebugger.DebugObject()
-        //  Input.GetKey(KeyCode.LeftShift)
-        var bApertouEspaco = Input.GetKey(KeyCode.Space);
-        // Debug.Log(bApertouEspaco);
-
-        if (bApertouEspaco)
-        {
-            isHurt = true;
-        }
-        else
-        {
-            isHurt = false;
-         }
-        oAnimator.SetBool("isHurt", isHurt);
-        //  Debug.Log(Input.GetKey(KeyCode.Space));
         if (isWaiting)
         {
-            oAnimator.SetBool("isHurt", false);
+            oAnimator.SetBool("isHurt", isHurt);
             waitCounter -= Time.deltaTime;
 
             if (waitCounter <= 0f)
@@ -102,5 +79,56 @@ public class GuerreiroPatrulha : MonoBehaviour
         float direction = movingLeft ? -1 : 1;
         float steps = movingLeft ? leftSteps : rightSteps;
         targetPosition = startPosition + new Vector2(direction * steps, 0);
+    }
+
+    /*
+    ************************************************************
+    *   Controller para:                                       *
+    *   -> Detectar o ataque do player, para então:            *
+    *      -> Recebe dano                                      *
+    *      -> Muda a animação: "esqueleto_animacao_toma_dano"  *         
+    ************************************************************
+    */
+    void OnTriggerEnter2D(Collider2D jogadorColliderAtaque)
+    {
+        bool eTagPlayer = jogadorColliderAtaque.CompareTag("Player");
+        if (!eTagPlayer) { return; }
+        BoxCollider2D BoxCollider2dDoPlayer = jogadorColliderAtaque as BoxCollider2D;
+        if (!BoxCollider2dDoPlayer) { return; }
+
+        // toma dano
+        vidaAtual = Mathf.Clamp(vidaAtual - 10, 0, vidaMaxima);
+        CanvasBarraDeVida.AtualizaVida(vidaAtual, vidaMaxima);
+        // muda a animação
+        oAnimator.SetBool("isWalking", false);
+        oAnimator.SetBool("isHurt", true);
+    }
+
+    void OnTriggerExit2D(Collider2D jogadorColliderAtaque)
+    {
+        bool eTagPlayer = jogadorColliderAtaque.CompareTag("Player");
+        if (!eTagPlayer) { return; }
+        BoxCollider2D BoxCollider2dDoPlayer = jogadorColliderAtaque as BoxCollider2D;
+        if (!BoxCollider2dDoPlayer) { return; }
+        StartCoroutine(esperaTempoAnimacaoTomaDano());
+        IEnumerator esperaTempoAnimacaoTomaDano() {
+            yield return new WaitForSeconds(nTempoAnimacaoTomaDano * 4);
+            oAnimator.SetBool("isHurt", false);
+            oAnimator.SetBool("isWalking", true);
+        }
+    }
+
+    void DefineTempoDasAnimacoes()
+    {
+        var Animacoes = oAnimator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip Animacao in Animacoes)
+        {
+            switch (Animacao.name)
+            {
+                case "skeleton.hurt":
+                    nTempoAnimacaoTomaDano = Animacao.length;
+                    break;
+            }
+        }
     }
 }
