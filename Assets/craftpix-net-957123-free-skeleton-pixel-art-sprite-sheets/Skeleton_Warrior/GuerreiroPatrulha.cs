@@ -4,10 +4,16 @@ using DbHelpers;
 
 public class GuerreiroPatrulha : MonoBehaviour
 {
+    [Header("Vida")]
+    public int vidaMaxima = 100;
+    public int vidaAtual = 100;
+    public CanvasBarraDeVida CanvasBarraDeVida;
+
+    [Header("Patrulha")]
     public float speed = 1f;
-    public float waitTime = 2f;
     public int leftSteps = 2;
     public int rightSteps = 2;
+    public float waitTime = 2f;
 
     private Animator oAnimator;
     private Vector2 startPosition;
@@ -28,6 +34,20 @@ public class GuerreiroPatrulha : MonoBehaviour
 
     private void Update()
     {
+        bool bEstaApertandoBotaoEsquerdoMouse = Input.GetMouseButton(0);
+        bool bEstaApertandoBotaoDireitoMouse = Input.GetMouseButton(1);
+
+        if (bEstaApertandoBotaoEsquerdoMouse)
+        {
+            vidaAtual += 10;
+        }
+
+        if (bEstaApertandoBotaoDireitoMouse)
+        {
+            vidaAtual -= 10;
+        }
+
+
         // DbDebugger.DebugObject()
         //  Input.GetKey(KeyCode.LeftShift)
         var bApertouEspaco = Input.GetKey(KeyCode.Space);

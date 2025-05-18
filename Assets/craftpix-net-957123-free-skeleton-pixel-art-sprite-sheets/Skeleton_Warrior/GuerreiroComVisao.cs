@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class GuerreiroComVisao : MonoBehaviour
 {
+    // [Header("")]
+    // public int vida = 100;
+
+
+
     [Header("Patrulha")]
     public float speed = 1f;
     public float waitTime = 2f;

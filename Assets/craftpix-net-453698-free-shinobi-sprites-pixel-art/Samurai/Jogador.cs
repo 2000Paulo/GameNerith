@@ -42,13 +42,56 @@ public class Jogador : MonoBehaviour
 
     private void Update()
     {
-        var oAnimatorStateInfo = oAnimator.GetCurrentAnimatorStateInfo(0);
+        // var oAnimatorStateInfo = oAnimator.GetCurrentAnimatorStateInfo(0);
         // var estaEmAnimacaoDeAtaque = oAnimatorStateInfo.IsName("Attack") && oAnimatorStateInfo.normalizedTime < 1f ? true : false;
 
-        DbDebugger.DebugObject( oAnimatorStateInfo.IsName("Attack"));
+        // Debug.Log(oAnimator.layerCount);
+        // DbDebugger.DebugObject(oAnimator);
+
+        int iBaseLayer = 0;
+        var oAnimacaoAtiva = oAnimator.GetCurrentAnimatorStateInfo(iBaseLayer);
+        int iHashNomeAnimacaoAtiva = oAnimacaoAtiva.shortNameHash;
+        int iHashNomeAnimacaoDesejada = Animator.StringToHash("player_animacao_ataque");
+
+        if (iHashNomeAnimacaoDesejada == iHashNomeAnimacaoAtiva) {
+            Debug.Log("Animação: ATACANDO");
+        }
+
+        // if ()
+
+        // for (int i = 0; i < oAnimator.layerCount; i++)
+        // {
+        //     var oLayer = oAnimator.GetLayerName(i);
+        //     var oAnimatorStateInfo = oAnimator.GetCurrentAnimatorStateInfo(i);
+        //     var oAnimatorNomeHash = oAnimatorStateInfo.nameHash;
+        //     var oAnimatorNomeCurtoHash = oAnimatorStateInfo.shortNameHash;
+
+        //     int oHashAnimacaoDesejada = Animator.StringToHash("idle");
+
+        //     if (
+        //         oHashAnimacaoDesejada == oAnimatorNomeHash ||
+        //         oHashAnimacaoDesejada == oAnimatorNomeCurtoHash
+        //     )
+        //     {
+        //         Debug.Log("parado");
+        //     }
+        //     // var oAnimatorHash = oAnimator.Get
+
+        //     // Debug.Log(oAnimator.GetCurrentAnimatorStateInfo(0));
+        //     // DbDebugger.DebugObject(oAnimator.GetCurrentAnimatorStateInfo(0));
+        // }
+
+        // var bEstaEmAnimacaoDeAtaque = oAnimatorStateInfo.IsName("Attack");
+
+        // if (bEstaEmAnimacaoDeAtaque) {
+        //     DbDebugger.DebugObject( oAnimatorStateInfo);
+
+        // }
 
 
-        
+
+
+
 
         // if (estaEmAnimacaoDeAtaque)
         // {

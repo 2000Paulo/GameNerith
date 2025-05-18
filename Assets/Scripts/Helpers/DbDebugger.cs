@@ -82,7 +82,7 @@ namespace DbHelpers
                 sDebugFinal += sPropriedade + "\n\n";
             }
 
-            Debug.Log(sDebugFinal);
+              Debug.Log(sDebugFinal);
         }
     }
 }
