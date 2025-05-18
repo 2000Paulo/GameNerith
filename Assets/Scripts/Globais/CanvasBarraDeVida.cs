@@ -20,7 +20,6 @@ public class CanvasBarraDeVida : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Screen.width + " " + Screen.height);
         // Controle dara renderizar ou não a barra de vida
         var PosicaoInimigoOuPlayer = transform.parent.position;
         Vector3 NovaPosicaoSlider = PosicaoInimigoOuPlayer + Altura;
