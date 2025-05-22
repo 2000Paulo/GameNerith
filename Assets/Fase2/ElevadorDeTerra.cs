@@ -3,18 +3,64 @@ using UnityEngine;
 
 public class ElevadorDeTerra : MonoBehaviour
 {
+    [Header("Configurações do Elevador")]
     public int alturaMaxima = 15;
     public float intervalo = 1.5f;
     public float velocidadeSubida = 2f;
+
+    [Header("Referência opcional ao FireControlador")]
+    public FireControlador fireControlador;
 
     private int alturaAtual = 0;
     private Vector3 posicaoInicial;
     private Transform jogadorEmCima = null;
     private Coroutine rotinaElevador;
+    private bool elevadorAtivado = false;
 
     void Start()
     {
         posicaoInicial = transform.position;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!elevadorAtivado && collision.collider.CompareTag("Player"))
+        {
+            jogadorEmCima = collision.transform;
+            jogadorEmCima.SetParent(transform);
+            StartCoroutine(EsperarEIniciarElevador());
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player") && jogadorEmCima != null)
+        {
+            StartCoroutine(SoltarPlayerNoProximoFrame());
+
+            if (rotinaElevador != null)
+            {
+                StopCoroutine(rotinaElevador);
+                rotinaElevador = null;
+            }
+        }
+    }
+
+    IEnumerator EsperarEIniciarElevador()
+    {
+        yield return new WaitForSeconds(intervalo);
+
+        if (jogadorEmCima != null && !elevadorAtivado)
+        {
+            elevadorAtivado = true;
+            rotinaElevador = StartCoroutine(ControlarElevador());
+
+            // 🔥 Dispara as bolas de fogo, se FireControlador estiver atribuído
+            if (fireControlador != null)
+            {
+                fireControlador.DispararTodas();
+            }
+        }
     }
 
     IEnumerator ControlarElevador()
@@ -34,41 +80,6 @@ public class ElevadorDeTerra : MonoBehaviour
 
             alturaAtual++;
             yield return new WaitForSeconds(intervalo);
-        }
-    }
-
-    IEnumerator EsperarEIniciarElevador()
-    {
-        yield return new WaitForSeconds(intervalo);
-
-        if (jogadorEmCima != null)
-        {
-            rotinaElevador = StartCoroutine(ControlarElevador());
-        }
-    }
-
-    // SUBSTITUIR TRIGGER POR COLISÃO
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            jogadorEmCima = collision.transform;
-            jogadorEmCima.SetParent(transform);
-            StartCoroutine(EsperarEIniciarElevador());
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Player") && jogadorEmCima != null)
-        {
-            StartCoroutine(SoltarPlayerNoProximoFrame());
-
-            if (rotinaElevador != null)
-            {
-                StopCoroutine(rotinaElevador);
-                rotinaElevador = null;
-            }
         }
     }
 
