@@ -67,6 +67,7 @@
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroComVisao.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\PlayerMovement.cs" />
     <Compile Include="Assets\Fase2\ShurikenMovel.cs" />
+    <Compile Include="Assets\Fase2\BolaDeFogo.cs" />
     <Compile Include="Assets\Fase2\GatilhoLapide.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\CameraFollow copy.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\VisaoInimigo.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Assets\craftpix-net-453698-free-shinobi-sprites-pixel-art\Samurai\Jogador.cs" />
     <Compile Include="Assets\Fase2\ElevadorDeTerra.cs" />
     <Compile Include="Assets\Scripts\PlayerLife.cs" />
+    <Compile Include="Assets\Fase2\FireControlador.cs" />
     <Compile Include="Assets\Fase2\TesteAbrirPortao.cs" />
     <Compile Include="Assets\Fase2\PortaoMovel.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroPatrulha.cs" />
@@ -90,6 +92,7 @@
     <None Include="Assets\craftpix-net-258377-free-fishing-game-assets-pixel-art-pack\License.txt" />
     <None Include="Assets\craftpix-785611-free-dungeon-platformer-pixel-art-tileset\License.txt" />
     <None Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Font.txt" />
+    <None Include="Assets\Player\FULL_Samurai 2D Pixel Art v1.2 (2)\FULL_Samurai 2D Pixel Art v1.2\License.txt" />
     <None Include="Assets\craftpix-785611-free-dungeon-platformer-pixel-art-tileset\readme.txt" />
     <None Include="Assets\Pixel Art Platformer - Village Props v2.3.0\Changelog.txt" />
     <None Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Licens.txt" />

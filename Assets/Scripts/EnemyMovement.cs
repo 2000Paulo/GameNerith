@@ -143,8 +143,6 @@ public class EnemyMovement : MonoBehaviour
 
     public void Shoot()
     {
-        Debug.Log("Disparando flecha via código sincronizado");
-
         GameObject arrow = Instantiate(arrowPrefab, shootPoint.position, Quaternion.identity);
         Vector2 direction = (player.position.x < transform.position.x) ? Vector2.left : Vector2.right;
         arrow.GetComponent<Arrow>().SetDirection(direction);
