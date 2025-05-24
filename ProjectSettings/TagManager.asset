@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Terra
   - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Water
   - UI
   - InimigoVisao
-  - 
-  - 
+  - Enemy
+  - Projectile
   - 
   - 
   - 
