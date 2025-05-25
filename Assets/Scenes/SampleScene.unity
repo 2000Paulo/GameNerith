@@ -1344,7 +1344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737ba059e85037b4db8f0d5a1639d87b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallThreshold: -999
+  fallThreshold: 5
   damageMultiplier: 5
 --- !u!61 &284158877
 BoxCollider2D:
@@ -3825,10 +3825,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.23462416
-    width: 1
-    height: 0.5297926
+    x: 0.028735632
+    y: 0
+    width: 0.94231594
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -23272,6 +23272,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &558144997
 Animator:
   serializedVersion: 7
@@ -24981,6 +24982,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &1037817804
 Animator:
   serializedVersion: 7
@@ -25236,6 +25238,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &1059645114
 Animator:
   serializedVersion: 7
@@ -25750,6 +25753,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &1233582240
 Animator:
   serializedVersion: 7
@@ -27311,6 +27315,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &1699187292
 Animator:
   serializedVersion: 7
@@ -30998,6 +31003,7 @@ MonoBehaviour:
   leftSteps: 2
   rightSteps: 2
   waitTime: 2
+  nTempoAnimacaoTomaDano: 0
 --- !u!95 &2111287379
 Animator:
   serializedVersion: 7
