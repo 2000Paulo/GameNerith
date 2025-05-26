@@ -2,65 +2,35 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform Target; // o jogador
-    public float followSpeed = 5f;
+    public Transform Target;       // O jogador
+    public float followSpeed = 5f; // Velocidade de seguimento
+    public Vector2 offset = new Vector2(0, 1.5f); // Offset para subir a câmera no eixo Y
+    public float pixelsPerUnit = 32f; // PPU do seu projeto
 
     private void LateUpdate()
     {
         if (Target == null) return;
 
-        Vector3 oCameraPosicao = transform.position;
-
-        Vector3 oTargetPosicao = new Vector3(
-            Target.position.x,
-            Target.position.y,
-            oCameraPosicao.z
+        // Posição alvo com offset (por exemplo, subir a câmera)
+        Vector3 targetPosition = new Vector3(
+            Target.position.x + offset.x,
+            Target.position.y + offset.y,
+            transform.position.z // Mantém o Z da câmera
         );
 
-        // A ideia é que a câmera siga o 'Target'
-        // Bom, é possível a gente só colocar a posição da câmera como a posição do 'Target':
+        // Suavidade baseada no tempo entre frames
+        float t = followSpeed * Time.deltaTime;
 
-        // Vector3 oNovaCameraPosicao = oTargetPosicao;
+        // Interpola a posição atual até a posição alvo
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, t);
 
-        // porém, às vezes acontecem alguns tremores na tela. E o Unity já sabendo disso,
-        // tem uma função que leva GRADUALMENTE de um ponto inicial A para um ponto final b.
-        // O último parâmetro é esse gradiente. A regra é:
-        // 0 : ele não segue a câmera
-        // 1 : ele segue a câmera e não é absolutamente nada gradual.
-        // range(0, 1) : gradual. É o meio mais ou menos que é o ideal.
-        // No nosso caso, o ponto inicial será a posição da câmera e o ponto final será a posição do 'Target'
+        // Pixel perfect rounding (x e y somente)
+        float unit = 1f / pixelsPerUnit;
 
-        // Vector3 oNovaCameraPosicao = Vector3.Lerp(
-        //     oCameraPosicao,
-        //     oTargetPosicao,
-        //     0.78f
-        // );
+        smoothPosition.x = Mathf.Round(smoothPosition.x / unit) * unit;
+        smoothPosition.y = Mathf.Round(smoothPosition.y / unit) * unit;
 
-        // Bom, ainda sim ocorrem tremores. Então, como medida desesperada, consideraremos
-        // a diferença de tempo do último frame para o frame atual quando definimos o gradiente
-
-        var nDiferencaFrameAnteriorEAtual = Time.deltaTime;
-        var nGradiente = followSpeed * nDiferencaFrameAnteriorEAtual;
-
-        Vector3 oNovaCameraPosicao = Vector3.Lerp(
-            oCameraPosicao,
-            oTargetPosicao,
-            nGradiente 
-        );
-
-        // Caramba, ainda ocorrem tremores. A último coisa que faltou considerar foram os pixels que utilizamos.
-        // Como o jogo é apenas 2D, modificaremos o 'x' e o 'y' apenas.
-
-        float nPixelPorUnidade = 0.03125f; // 1f / 32f
-
-        var nValorAnterior = oNovaCameraPosicao.x;
-
-
-        // Retorna o número INTEIRO mais próximo. Ex: 99.023482343897 -> 99
-        oNovaCameraPosicao.x = Mathf.Round(oNovaCameraPosicao.x / nPixelPorUnidade) * nPixelPorUnidade;
-        oNovaCameraPosicao.y = Mathf.Round(oNovaCameraPosicao.y / nPixelPorUnidade) * nPixelPorUnidade;
-
-
-        transform.position = oNovaCameraPosicao;
+        // Aplica a posição suavizada e ajustada
+        transform.position = smoothPosition;
     }
 }
