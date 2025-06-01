@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 1b6f3ee08784aaf40aafe93d96c27e2a
+guid: 81e47a3ec48822f42aaf76335f2884ad
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7500690451134026123
-    second: Take Hit_0
+      213: 5160337174065941027
+    second: Bat-Sleep_0
   - first:
-      213: -889859373511162655
-    second: Take Hit_1
+      213: 5719716247012904364
+    second: Bat-Sleep_1
   - first:
-      213: -3088938797480143695
-    second: Take Hit_2
-  - first:
-      213: -9206091644520726168
-    second: Take Hit_3
+      213: -5379846406165079992
+    second: Bat-Sleep_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,56 +106,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Take Hit_0
+      name: Bat-Sleep_0
       rect:
         serializedVersion: 2
-        x: 57
-        y: 58
-        width: 41
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 57eedf966c138e790800000000000000
-      internalID: -7500690451134026123
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Take Hit_1
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 56
-        width: 41
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1e4c0dd4d9596a3f0800000000000000
-      internalID: -889859373511162655
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Take Hit_2
-      rect:
-        serializedVersion: 2
-        x: 367
-        y: 62
-        width: 26
+        x: 27
+        y: 26
+        width: 10
         height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -168,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b416439782e125d0800000000000000
-      internalID: -3088938797480143695
+      spriteID: 32a8175b1533d9740800000000000000
+      internalID: 5160337174065941027
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Take Hit_3
+      name: Bat-Sleep_1
       rect:
         serializedVersion: 2
-        x: 518
-        y: 63
-        width: 20
-        height: 21
+        x: 91
+        y: 26
+        width: 10
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +143,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 86186aedc646d3080800000000000000
-      internalID: -9206091644520726168
+      spriteID: cad0c3f4f93806f40800000000000000
+      internalID: 5719716247012904364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Sleep_2
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 26
+        width: 10
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8485e5e7232f655b0800000000000000
+      internalID: -5379846406165079992
       vertices: []
       indices: 
       edges: []
@@ -200,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ed6a13eb5441c1b4fa2480b1c5d4876f
+    spriteID: 17f947dc0c29c6442a1bfc789f1ca945
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Take Hit_0: -7500690451134026123
-      Take Hit_1: -889859373511162655
-      Take Hit_2: -3088938797480143695
-      Take Hit_3: -9206091644520726168
+      Bat-Sleep_0: 5160337174065941027
+      Bat-Sleep_1: 5719716247012904364
+      Bat-Sleep_2: -5379846406165079992
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
