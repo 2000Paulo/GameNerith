@@ -562,7 +562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -383.50006, y: 132.99998}
+  m_AnchoredPosition: {x: -383.50006, y: 180}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &115555045
@@ -1158,7 +1158,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.13, y: -2.98, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1625,8 +1625,8 @@ Transform:
   m_GameObject: {fileID: 284158867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.22, y: -4.38, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 63.8, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1813,7 +1813,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4375, y: 2.53125}
+    oldSize: {x: 0.71875, y: 1.265625}
     newSize: {x: 1.4375, y: 2.53125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4093,7 +4093,7 @@ Camera:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -4112,14 +4112,14 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.29548088
-    width: 0.99821746
-    height: 0.40787947
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.5
+  orthographic size: 4.34375
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4164,10 +4164,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ComponentVersion: 1
   m_AssetsPPU: 32
-  m_RefResolutionX: 640
-  m_RefResolutionY: 352
-  m_CropFrame: 2
-  m_GridSnapping: 2
+  m_RefResolutionX: 480
+  m_RefResolutionY: 270
+  m_CropFrame: 0
+  m_GridSnapping: 0
   m_FilterMode: 1
   m_UpscaleRT: 0
   m_PixelSnapping: 0
@@ -26285,7 +26285,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4394573487689358311, guid: f2f9146f0bbfad14287c27df77b2fa8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -26475,7 +26475,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4394573487689358311, guid: f2f9146f0bbfad14287c27df77b2fa8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -26706,7 +26706,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -383.50006, y: 133}
+  m_AnchoredPosition: {x: -383.50006, y: 180}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1638849536
@@ -27910,7 +27910,7 @@ Transform:
   m_GameObject: {fileID: 1946617079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.096, y: -4.273, z: 0}
+  m_LocalPosition: {x: 65.4, y: -2.1, z: 0}
   m_LocalScale: {x: 1, y: 1.09, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28060,7 +28060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.5, y: 133}
+  m_AnchoredPosition: {x: -323.5, y: 178}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2047251298

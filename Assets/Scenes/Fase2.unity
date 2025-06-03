@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 59705238}
   - component: {fileID: 59705237}
   - component: {fileID: 59705236}
+  - component: {fileID: 59705240}
   m_Layer: 0
   m_Name: BolaDeFogo2
   m_TagString: Untagged
@@ -365,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429f267470910594eaee721178f215cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 3
+  velocidade: 2
 --- !u!95 &59705238
 Animator:
   serializedVersion: 7
@@ -431,7 +432,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 5
   m_Sprite: {fileID: -274549069830704790, guid: 7f6c5f3f6c058574b869f76eaf20a7c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -443,6 +444,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &59705240
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59705234}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &85089575
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,9 +694,10 @@ GameObject:
   - component: {fileID: 130021745}
   - component: {fileID: 130021744}
   - component: {fileID: 130021743}
+  - component: {fileID: 130021747}
   m_Layer: 0
   m_Name: BolaDeFogo3
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -736,7 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429f267470910594eaee721178f215cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 3
+  velocidade: 2
 --- !u!95 &130021745
 Animator:
   serializedVersion: 7
@@ -802,7 +831,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 5
   m_Sprite: {fileID: -274549069830704790, guid: 7f6c5f3f6c058574b869f76eaf20a7c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -814,6 +843,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &130021747
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130021741}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &130733658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,9 +2232,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.28121212
-    width: 1
-    height: 0.43636364
+    y: 0.06772009
+    width: 1.4128035
+    height: 0.40632054
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -3170,7 +3226,7 @@ GameObject:
   - component: {fileID: 729819055}
   - component: {fileID: 729819054}
   - component: {fileID: 729819053}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: elevador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80456,6 +80512,7 @@ GameObject:
   - component: {fileID: 873029896}
   - component: {fileID: 873029899}
   - component: {fileID: 873029900}
+  - component: {fileID: 873029901}
   m_Layer: 0
   m_Name: BolaDeFogo1
   m_TagString: Untagged
@@ -80528,7 +80585,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 5
   m_Sprite: {fileID: -274549069830704790, guid: 7f6c5f3f6c058574b869f76eaf20a7c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -80567,7 +80624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429f267470910594eaee721178f215cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidade: 3
+  velocidade: 2
 --- !u!58 &873029900
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -80604,6 +80661,33 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.0000038146973, y: 0}
   m_Radius: 0.265625
+--- !u!50 &873029901
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873029895}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &906172201
 GameObject:
   m_ObjectHideFlags: 0
@@ -80634,6 +80718,116 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 786458068}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &951868167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951868170}
+  - component: {fileID: 951868169}
+  - component: {fileID: 951868168}
+  m_Layer: 0
+  m_Name: Seta
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!95 &951868168
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951868167}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 857b8e6087328464d8a9fd731e34df0e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!212 &951868169
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951868167}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -2807893418814396073, guid: a28b64f898dd1064885f1b042b2b0054, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 1
+  m_DrawMode: 0
+  m_Size: {x: 0.4375, y: 0.4375}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &951868170
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951868167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53.08, y: -52.93, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &956603936
 GameObject:
@@ -80841,7 +81035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063298250}
   - component: {fileID: 1063298251}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: ControleTeste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80921,7 +81115,7 @@ GameObject:
   - component: {fileID: 1106722269}
   - component: {fileID: 1106722268}
   - component: {fileID: 1106722271}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: "port\xE3o"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81187,7 +81381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc4a15a38c6baf4591d58648ce47f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intervaloEntreBolas: 1
+  intervaloEntreBolas: 2.5
   intervaloEntreCiclos: 1
 --- !u!4 &1116172204
 Transform:
@@ -98785,7 +98979,7 @@ Transform:
   m_GameObject: {fileID: 1982446009}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.008385552, w: 0.99996483}
-  m_LocalPosition: {x: 25.7, y: -58.2, z: 0}
+  m_LocalPosition: {x: 55.43, y: -52.55, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98866,7 +99060,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4375, y: 2.53125}
+    oldSize: {x: 0.71875, y: 1.265625}
     newSize: {x: 1.4375, y: 2.53125}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -99227,3 +99421,4 @@ SceneRoots:
   - {fileID: 130733660}
   - {fileID: 1373630780}
   - {fileID: 1153524720}
+  - {fileID: 951868170}
