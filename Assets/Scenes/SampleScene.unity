@@ -33512,7 +33512,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -383.50006, y: 180}
+  m_AnchoredPosition: {x: -383.5, y: 180}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &115555045
@@ -33535,11 +33535,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 03926041e1f351d47915aab3e0608c48, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -34575,7 +34575,7 @@ Transform:
   m_GameObject: {fileID: 284158867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 63.8, y: -2, z: 0}
+  m_LocalPosition: {x: 52.85, y: 10.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37069,7 +37069,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 9.546875
+  orthographic size: 9.296875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -58447,6 +58447,8 @@ MonoBehaviour:
   playerHealth: {fileID: 284158875}
   lifeBar: {fileID: 115555045}
   redBar: {fileID: 1638849536}
+  redBarSpeed: 1.5
+  redBarDelay: 0.3
 --- !u!4 &1024523298
 Transform:
   m_ObjectHideFlags: 0
@@ -59656,7 +59658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -383.50006, y: 180}
+  m_AnchoredPosition: {x: -383.5, y: 180}
   m_SizeDelta: {x: 120, y: 10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1638849536
@@ -59679,11 +59681,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 03926041e1f351d47915aab3e0608c48, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -61010,9 +61012,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.5, y: 178}
+  m_AnchoredPosition: {x: -383.49997, y: 180}
   m_SizeDelta: {x: 120, y: 10}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2047251298
 MonoBehaviour:
   m_ObjectHideFlags: 0

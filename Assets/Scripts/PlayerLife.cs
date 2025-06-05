@@ -3,23 +3,43 @@ using UnityEngine.UI;
 
 public class PlayerLife : MonoBehaviour
 {
-    public PlayerHealth playerHealth;    // Referência ao script PlayerHealth
-    public Image lifeBar;                // Referência para a Life Bar (barra verde)
-    public Image redBar;                 // Referência para a Red Bar (barra vermelha)
+    public PlayerHealth playerHealth;
+    public Image lifeBar;
+    public Image redBar;
+    public float redBarSpeed = 1.5f;
+    public float redBarDelay = 0.3f; // Tempo de atraso antes da barra vermelha começar a descer
+
+    private float targetLifeAmount;
+    private float redBarDelayTimer = 0f;
 
     void Update()
     {
-        // Atualiza a barra de vida sempre que o jogador tomar dano ou se curar
         UpdateLifeBar();
     }
 
-    // Função para atualizar as barras de vida
     void UpdateLifeBar()
     {
-        // Atualiza a largura da Life Bar (barra verde) com base na vida atual do jogador
-        lifeBar.fillAmount = (float)playerHealth.GetHealth() / playerHealth.maxHealth;
+        targetLifeAmount = (float)playerHealth.GetHealth() / playerHealth.maxHealth;
+        lifeBar.fillAmount = targetLifeAmount;
 
-        // Atualiza a largura da Red Bar (barra vermelha) com base no dano recebido
-        redBar.fillAmount = (float)(playerHealth.maxHealth - playerHealth.GetHealth()) / playerHealth.maxHealth;
+        // Se a barra verde diminuiu, inicia o timer de delay
+        if (redBar.fillAmount > targetLifeAmount)
+        {
+            if (redBarDelayTimer < redBarDelay)
+            {
+                redBarDelayTimer += Time.deltaTime;
+            }
+            else
+            {
+                redBar.fillAmount -= redBarSpeed * Time.deltaTime;
+                if (redBar.fillAmount < targetLifeAmount)
+                    redBar.fillAmount = targetLifeAmount;
+            }
+        }
+        else
+        {
+            redBar.fillAmount = targetLifeAmount;
+            redBarDelayTimer = 0f; // Reseta o timer se curar ou igualar
+        }
     }
 }
