@@ -28,6 +28,7 @@ public class MenuPrincipal : MonoBehaviour
 
     public void Jogar()
     {
+        Time.timeScale = 1f; // Aqui resolve o bug!
         SceneManager.LoadScene("SampleScene");
     }
 

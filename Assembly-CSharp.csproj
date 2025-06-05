@@ -94,6 +94,7 @@
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\VisaoInimigo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
+    <Compile Include="Assets\Scenes\PauseManager.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\Sprites\PortalTeleport.cs" />
     <Compile Include="Assets\Fase2\CaixaTexto.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
