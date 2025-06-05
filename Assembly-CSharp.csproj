@@ -82,6 +82,7 @@
     <Compile Include="Assets\Fase2\ShurikenMovel.cs" />
     <Compile Include="Assets\Fase2\BolaDeFogo.cs" />
     <Compile Include="Assets\Fase2\GatilhoLapide.cs" />
+    <Compile Include="Assets\MenuPrincipal\UIButtonSound.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\CameraFollow copy.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
