@@ -2232,9 +2232,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.06772009
-    width: 1.4128035
-    height: 0.40632054
+    y: -0.052539404
+    width: 1.3302584
+    height: 0.63047284
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -98812,7 +98812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!70 &1982446010
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
