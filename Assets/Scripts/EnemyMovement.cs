@@ -3,8 +3,13 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [Header("Som")]
+    public AudioClip shootSound;
+    private AudioSource audioSource;
+
     private float walkCooldown = 0f;
     private bool isRetreating = false;
+
     [Header("Movimento")]
     public float speed = 2f;
     public Transform pointA;
@@ -20,6 +25,15 @@ public class EnemyMovement : MonoBehaviour
     public float idealMinDistance = 2f;
     public float idealMaxDistance = 4f;
 
+    // ─── Adicionado ──────────────────────────────────────────────────────────────
+    [Header("Dissolve Settings")]
+    public Material dissolveMaterial;   // material usando Custom/SpriteDissolve.shader
+    public Texture2D noiseTexture;      // sua noise mask
+    public float dissolveDuration = 1f; // duração do efeito
+
+    private Material _matInstance;      // instância do material
+    // ───────────────────────────────────────────────────────────────────────────────
+
     private Rigidbody2D rb;
     private Transform player;
     private SpriteRenderer sprite;
@@ -31,16 +45,34 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         patrolTarget = pointB.position;
+
+        // ─── Instancia o material de dissolve ───────────────────────────────────
+        if (dissolveMaterial != null && noiseTexture != null)
+        {
+            _matInstance = Instantiate(dissolveMaterial);
+            _matInstance.SetTexture("_NoiseTex", noiseTexture);
+            _matInstance.SetFloat("_Cutoff", 0f);
+        }
+        // ─────────────────────────────────────────────────────────────────────────
     }
 
     void Update()
     {
         if (player == null) return;
+
+        // --------- TESTE DE MORTE COM "F" ------------
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            TriggerDeath();
+            return; // não processa mais
+        }
+        // ---------------------------------------------
 
         float distance = Vector2.Distance(transform.position, player.position);
 
@@ -72,80 +104,79 @@ public class EnemyMovement : MonoBehaviour
         moveTarget = patrolTarget;
 
         if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
-        {
             patrolTarget = (Vector2)patrolTarget == (Vector2)pointA.position ? pointB.position : pointA.position;
-        }
 
         FlipSprite(patrolTarget.x);
+        animator.SetBool("isWalking", true);
     }
 
     void ActBasedOnDistance(float distance)
     {
         if (distance > idealMaxDistance)
         {
-            moveTarget = new Vector2(player.position.x, rb.position.y); // Aproxima
+            moveTarget = new Vector2(player.position.x, rb.position.y);
+            animator.SetBool("isWalking", true);
         }
         else if (distance < idealMinDistance)
         {
             float direction = transform.position.x < player.position.x ? -1 : 1;
-            moveTarget = new Vector2(transform.position.x + direction * 1.5f, rb.position.y); // Recuar
+            moveTarget = new Vector2(transform.position.x + direction * 1.5f, rb.position.y);
+            animator.SetBool("isWalking", true);
         }
         else
         {
-            moveTarget = rb.position; // Parado
+            moveTarget = rb.position;
+            animator.SetBool("isWalking", false);
         }
     }
 
     void DetectAndShoot(float distance)
     {
         timer += Time.deltaTime;
-
         bool inRange = distance >= idealMinDistance && distance <= idealMaxDistance;
 
         if (inRange && timer >= shootInterval)
         {
-            // Evita conflitos
             StopAllCoroutines();
-
             animator.SetTrigger("attackNow");
             isRetreating = false;
             moveTarget = rb.position;
 
-            StartCoroutine(WaitForAnimationAndShoot("EnemyAttack", 0.4f)); // nome do estado e tempo
+            StartCoroutine(WaitForAnimationAndShoot("EnemyAttack", 0.4f));
             timer = 0f;
         }
     }
 
     IEnumerator WaitForAnimationAndShoot(string stateName, float normalizedTimeThreshold)
     {
-        yield return null; // aguarda 1 frame para a transição ocorrer
+        isShooting = true;
+        yield return null;
 
-        // Aguarda a transição para o estado de ataque
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
             yield return null;
 
-        // Aguarda até atingir o ponto da flecha
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < normalizedTimeThreshold)
             yield return null;
 
         Shoot();
-    }
 
-    IEnumerator DelayedShoot(float delay)
-    {
-        isShooting = true;
-        yield return new WaitForSeconds(delay);
-        Shoot();
-        yield return new WaitForSeconds(0.4f);
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            yield return null;
+
         isShooting = false;
-        animator.SetBool("isWalking", true); // <-- reforça a volta para animação de andar
     }
 
     public void Shoot()
     {
-        GameObject arrow = Instantiate(arrowPrefab, shootPoint.position, Quaternion.identity);
-        Vector2 direction = (player.position.x < transform.position.x) ? Vector2.left : Vector2.right;
-        arrow.GetComponent<Arrow>().SetDirection(direction);
+        if (shootSound != null && audioSource != null)
+            audioSource.PlayOneShot(shootSound);
+
+        if (arrowPrefab != null && shootPoint != null)
+        {
+            GameObject arrow = Instantiate(arrowPrefab, shootPoint.position, Quaternion.identity);
+            Vector2 direction = (player.position.x < transform.position.x) ? Vector2.left : Vector2.right;
+            arrow.GetComponent<Arrow>().SetDirection(direction);
+        }
     }
 
     void FlipSprite(float targetX)
@@ -155,19 +186,51 @@ public class EnemyMovement : MonoBehaviour
 
     void UpdateAnimations()
     {
-        float distance = Vector2.Distance(rb.position, moveTarget);
-
-        if (distance > 0.01f)
+        if (isShooting)
         {
-            walkCooldown = 0.15f; // mantêm andando por +150ms
-        }
-        else
-        {
-            walkCooldown -= Time.deltaTime;
+            animator.SetBool("isWalking", false);
+            return;
         }
 
-        bool isMoving = walkCooldown > 0f;
+        bool isMoving = Vector2.Distance(rb.position, moveTarget) > 0.01f;
         animator.SetBool("isWalking", isMoving);
     }
 
+    public void TriggerDeath()
+    {
+        // Cancela qualquer ação
+        StopAllCoroutines();
+        isShooting = false;
+        animator.SetBool("isWalking", false);
+
+        // Troca para o material de dissolve (se estiver configurado)
+        if (_matInstance != null)
+            sprite.material = _matInstance;
+
+        // Desativa física imediata
+        rb.simulated = false;
+
+        // Inicia o efeito de dissolve
+        StartCoroutine(DissolveRoutine());
+    }
+
+    // ─── coroutine de dissolve ────────────────────────────────────────────────
+    private IEnumerator DissolveRoutine()
+    {
+        if (_matInstance == null)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < dissolveDuration)
+        {
+            _matInstance.SetFloat("_Cutoff", Mathf.Lerp(0f, 1f, t / dissolveDuration));
+            t += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(gameObject);
+    }
+    // ───────────────────────────────────────────────────────────────────────────
 }

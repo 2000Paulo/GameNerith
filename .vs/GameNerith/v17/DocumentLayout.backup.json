@@ -7,16 +7,12 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\EnemyMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\Arrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Arrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\EnemyAttack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\EnemyAttack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\LockScale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,29 +26,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EnemyAttack.cs",
-              "DocumentMoniker": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\EnemyAttack.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyAttack.cs",
-              "ToolTip": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\EnemyAttack.cs",
-              "RelativeToolTip": "Assets\\Scripts\\EnemyAttack.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T01:49:45.756Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Arrow.cs",
               "DocumentMoniker": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\Arrow.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Arrow.cs",
               "ToolTip": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\Arrow.cs",
               "RelativeToolTip": "Assets\\Scripts\\Arrow.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-19T01:23:38.187Z",
               "EditorCaption": ""
@@ -65,14 +49,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyMovement.cs",
               "ToolTip": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\EnemyMovement.cs",
               "RelativeToolTip": "Assets\\Scripts\\EnemyMovement.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAADwvy8AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAALIAAAAAAAAAAAAiwJUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-19T00:41:47.714Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Flecha.cs",
               "DocumentMoniker": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs",
               "RelativeDocumentMoniker": "Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs",
@@ -80,12 +64,11 @@
               "RelativeToolTip": "Assets\\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\\Skeleton_Archer\\Flecha.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-19T21:36:13.139Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T21:36:13.139Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "LockScale.cs",
               "DocumentMoniker": "C:\\Users\\paulo\\Documents\\GameNerith\\Assets\\Scripts\\LockScale.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\LockScale.cs",
