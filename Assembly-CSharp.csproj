@@ -102,6 +102,7 @@
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\Sprites\PortalTeleport.cs" />
     <Compile Include="Assets\Fase2\CaixaTexto.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\Pixel Art Platformer - Village Props v2.3.0\FallingPlatform.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Assets\Fase2\ElevadorDeTerra.cs" />
     <Compile Include="Assets\Scripts\PlayerLife.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
+    <Compile Include="Assets\HealingVisualFeedback.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\PlayerHealer.cs.cs" />
     <Compile Include="Assets\Monster_Creatures_Fantasy(Version 1.3)\Monster_Creatures_Fantasy(Version 1.3)\Monsters_Creatures_Fantasy\Monsters_Creatures_Fantasy\Flying eye\PatrulhaInimigoVoador.cs" />
