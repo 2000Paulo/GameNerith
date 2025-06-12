@@ -9,6 +9,10 @@ public class PatrulhaInimigoVoador : MonoBehaviour
     public float dashSpeed = 5f;
     public float hoverTime = 0.5f;
     public float dashCooldown = 2f;
+    public int damageAmount = 20;
+
+    [Header("Referência da zona de ataque")]
+    public GameObject zonaDeAtaque;
 
     private Vector3 startPosition;
     private Vector3 leftTarget;
@@ -20,7 +24,7 @@ public class PatrulhaInimigoVoador : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    private Vector3 lockedTargetPosition; // a posição onde o player foi visto no momento da detecção
+    private Vector3 lockedTargetPosition;
     private bool playerWasVisible = false;
 
     private void Start()
@@ -34,6 +38,9 @@ public class PatrulhaInimigoVoador : MonoBehaviour
         animator = GetComponent<Animator>();
 
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(false); // hitbox começa desativada
     }
 
     private void Update()
@@ -45,7 +52,6 @@ public class PatrulhaInimigoVoador : MonoBehaviour
 
         if (playerVisible && !playerWasVisible)
         {
-            // Detectou o player pela primeira vez
             lockedTargetPosition = player.position;
             StartCoroutine(AttackSequence());
         }
@@ -82,14 +88,10 @@ public class PatrulhaInimigoVoador : MonoBehaviour
         isAttacking = true;
 
         animator.Play("Fly");
-
-        // Vira para a direção do alvo salvo
         spriteRenderer.flipX = lockedTargetPosition.x < transform.position.x;
 
-        // Espera 0.5 segundos parado no ar
         yield return new WaitForSeconds(hoverTime);
 
-        // Começa o dash até o ponto salvo
         while (Vector3.Distance(transform.position, lockedTargetPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, lockedTargetPosition, dashSpeed * Time.deltaTime);
@@ -97,36 +99,29 @@ public class PatrulhaInimigoVoador : MonoBehaviour
             yield return null;
         }
 
-        // Ataque mesmo que não acerte nada
         animator.Play("Attack");
-        yield return new WaitForSeconds(0.4f);
 
-        // Volta para onde estava originalmente
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(true); // ativa a hitbox
+
+        yield return new WaitForSeconds(0.4f); // tempo da hitbox ativa
+
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(false); // desativa após ataque
+
         animator.Play("Fly");
-    while (Vector3.Distance(transform.position, startPosition) > 0.1f)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
 
-        // Adiciona flip na direção de volta
-        spriteRenderer.flipX = startPosition.x < transform.position.x;
-
-        yield return null;
-    }
+        while (Vector3.Distance(transform.position, startPosition) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
+            spriteRenderer.flipX = startPosition.x < transform.position.x;
+            yield return null;
+        }
 
         transform.position = startPosition;
-
         yield return new WaitForSeconds(dashCooldown);
 
         isAttacking = false;
         playerWasVisible = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player") && isAttacking)
-        {
-            animator.Play("Attack");
-            // Aqui você pode causar dano ao jogador
-        }
     }
 }
