@@ -25,6 +25,8 @@ public class Jogador : MonoBehaviour
     private bool isGrounded;
     private bool isAttacking = false; // NOVO
 
+    private Vector3 oPosMorte;
+
     // VARIÁVEIS QUE RECEBEM OS INPUTS
     private float xAxiesInputDirection; // input do eixo x ( útil para a movimentação para a esquerda ou direita )
     private float yAxiesInputDirection;
@@ -54,7 +56,6 @@ public class Jogador : MonoBehaviour
         *   -> Atacando                       
         ********************************************************
         */
-
 
         oAnimator.SetBool("isWalking", Input.GetAxisRaw("Horizontal") != 0);
 
@@ -91,6 +92,7 @@ public class Jogador : MonoBehaviour
             isGrounded = true;
         }
 
+        StartCoroutine(Morre());
 
         if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
         {
@@ -128,7 +130,11 @@ public class Jogador : MonoBehaviour
     }
 
 
-    // CORROTINA DE ATAQUE
+    /*
+    *********************
+    *   Funções nossas  *                       
+    *********************
+    */
     private IEnumerator RealizarAtaque()
     {
         isAttacking = true;
@@ -207,4 +213,42 @@ public class Jogador : MonoBehaviour
             oBoxCollider2d.size.y
         );
     }
+
+
+    private IEnumerator Morre()
+    {
+        if (GetComponent<PlayerHealth>().currentHealth <= 0 && oAnimator.GetBool("morreu") == false)
+        {
+            oRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            oAnimator.SetBool("morreu", true);
+            oPosMorte = new Vector3(
+                transform.position.x,
+                transform.position.y + (-oSpriteRenderer.bounds.extents.y),
+                transform.position.z
+            );
+
+        }
+
+        if (oSpriteRenderer.sprite.name.StartsWith("DEATH"))
+        {
+            transform.position = oPosMorte;
+
+        }
+
+        if (oSpriteRenderer.sprite.name.StartsWith("DEATH_8"))
+        {
+            yield return new WaitForSeconds(0.4f);
+            this.gameObject.SetActive(false);
+
+            string sNomeGameObjectPontoDeSpawn = GameManager.instance?.proximoSpawnPoint;
+            GameObject oPontoDeSpawn = GameObject.Find(sNomeGameObjectPontoDeSpawn);
+
+            if (oPontoDeSpawn == null) { yield break; }
+
+            this.transform.position = oPontoDeSpawn.transform.position;
+            
+        }
+
+    }
+
 }

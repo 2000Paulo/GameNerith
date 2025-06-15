@@ -5,7 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Configurações de Vida")]
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     [Header("Eventos")]
     public UnityEvent<int, int> OnHealthChanged; // (vida atual, vida máxima)
