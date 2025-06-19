@@ -7,6 +7,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using DbHelpers;
 using System.ComponentModel.Design.Serialization;
+using UnityEngine.Analytics;
 
 public class Jogador : MonoBehaviour
 {
@@ -57,6 +58,20 @@ public class Jogador : MonoBehaviour
         ********************************************************
         */
 
+        ContactPoint2D[] aColisoesDetectadas = new ContactPoint2D[10];
+        int popularaColisoesDetectadas = oRigidBody.GetContacts(aColisoesDetectadas);
+
+        foreach (var oColisaoDetectada in aColisoesDetectadas)
+        {
+            if (
+                oColisaoDetectada.collider?.name?.Trim().ToUpper() == "GROUND" ||
+                oColisaoDetectada.rigidbody?.name?.Trim().ToUpper() == "GROUND"
+            )
+            {
+                oAnimator.SetBool("noChao", true);
+            }
+        }
+
         oAnimator.SetBool("isWalking", Input.GetAxisRaw("Horizontal") != 0);
 
         oAnimator.SetFloat("Blend", Input.GetAxis("Horizontal"));
@@ -94,10 +109,17 @@ public class Jogador : MonoBehaviour
 
         StartCoroutine(Morre());
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
+
+        if (Input.GetKeyDown(KeyCode.Space) && !oSpriteRenderer.sprite.name.StartsWith("ATTACK"))
         {
-            StartCoroutine(RealizarAtaque());
+            oAnimator.SetTrigger("podeAtacar");
         }
+
+        if (oSpriteRenderer.sprite.name.ToUpper().Contains("ATTACK") && oSpriteRenderer.sprite.name.Contains("2_6"))
+        {
+            oAnimator.SetTrigger("parouDeAtacar");
+        }
+
         // AjustaHitboxAtaque("player_animacao_ataque");
 
 
