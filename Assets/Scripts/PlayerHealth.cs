@@ -41,7 +41,13 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Jogador morreu!");
+        Invoke("ChamarGameOver", 1f);
         // gameObject.SetActive(false);
+    }
+
+    private void ChamarGameOver()
+    {
+        GameManager.instance.GameOver();
     }
 
     public int GetHealth()

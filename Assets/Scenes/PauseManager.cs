@@ -8,8 +8,37 @@ public class PauseManager : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject); // Não destruir ao trocar de cena
-        opcoesUI.SetActive(false);     // Começa escondido
+        // Evita múltiplos PauseManagers
+        if (Object.FindObjectsByType<PauseManager>(FindObjectsSortMode.None).Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+        opcoesUI.SetActive(false);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Destroi o PauseManager ao voltar pro menu principal
+        if (scene.name == "CenaPrincipalD")
+        {
+            Destroy(gameObject);
+        }
+
+        // Garante que o jogo volte ao normal ao carregar cena nova
+        Time.timeScale = 1f;
+        isPaused = false;
+        if (opcoesUI != null)
+            opcoesUI.SetActive(false);
     }
 
     void Update()
@@ -17,33 +46,37 @@ public class PauseManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
-            {
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
 
     public void Resume()
     {
-        opcoesUI.SetActive(false);
+        if (opcoesUI != null)
+            opcoesUI.SetActive(false);
+
         Time.timeScale = 1f;
         isPaused = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void Pause()
     {
-        opcoesUI.SetActive(true);
+        if (opcoesUI != null)
+            opcoesUI.SetActive(true);
+
         Time.timeScale = 0f;
         isPaused = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void LoadMenuPrincipal()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("CenaPrincipalD"); // Nome da sua cena principal
+        SceneManager.LoadScene("CenaPrincipalD");
     }
 }

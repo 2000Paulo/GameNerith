@@ -5,19 +5,27 @@ public class PlayerMoverParaSpawn : MonoBehaviour
 {
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
-        // Registra para ser chamado quando uma cena for carregada
+        // Agora NÃO tem DontDestroyOnLoad!
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnDestroy()
     {
-        // Limpa o evento se o player for destruído
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        MoverParaSpawn();
+    }
+
+    void Start()
+    {
+        // Garante que será movido se essa cena for a primeira carregada
+        MoverParaSpawn();
+    }
+
+    private void MoverParaSpawn()
     {
         string spawnName = GameManager.instance?.proximoSpawnPoint;
 
@@ -28,11 +36,11 @@ public class PlayerMoverParaSpawn : MonoBehaviour
             if (spawnPoint != null)
             {
                 transform.position = spawnPoint.transform.position;
-                Debug.Log($"Player foi movido para o SpawnPoint '{spawnName}' na cena {scene.name}");
+                Debug.Log($"Player movido para o SpawnPoint '{spawnName}' na cena.");
             }
             else
             {
-                Debug.LogWarning($"SpawnPoint '{spawnName}' não encontrado na cena {scene.name}!");
+                Debug.LogWarning($"SpawnPoint '{spawnName}' não encontrado na cena!");
             }
         }
     }
