@@ -38,6 +38,9 @@ public class Jogador : MonoBehaviour
     public float jumpSpeed = 5f;
     public float tempoAnimacaoDeAtaque = 0.5f; // Duração da animação de ataque
 
+    // 1. Nova variável pública para a hitbox
+    public GameObject hitboxAtaque;
+
     private void Start()
     {
         oRigidBody = GetComponent<Rigidbody2D>();
@@ -45,6 +48,12 @@ public class Jogador : MonoBehaviour
         oSpriteRenderer = GetComponent<SpriteRenderer>();
         oCapsuleCollider2d = GetComponent<CapsuleCollider2D>();
         oBoxCollider2d = GetComponent<BoxCollider2D>();
+
+        // 2. Garante que a hitbox comece desativada
+        if (hitboxAtaque != null)
+        {
+            hitboxAtaque.SetActive(false);
+        }
     }
 
     private void Update()
@@ -90,12 +99,10 @@ public class Jogador : MonoBehaviour
             oAnimator.SetBool("noChao", isGrounded);
         }
 
-
         // vira o sprite para a direita ou esquerda.
         // dependendo da direção indicada pelo input (<-, ->, A, D) no eixo X
         AjustaHitboxCorpoPersonagem();
         AjustaDirecaoSprite();
-
 
         if (
             oAnimator.GetBool("pulando") == true &&
@@ -109,29 +116,20 @@ public class Jogador : MonoBehaviour
 
         StartCoroutine(Morre());
 
-
-        if (Input.GetKeyDown(KeyCode.Space) && !oSpriteRenderer.sprite.name.StartsWith("ATTACK"))
+        // 3. Substitua o bloco de ataque por este:
+        if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
         {
-            oAnimator.SetTrigger("podeAtacar");
+            StartCoroutine(RealizarAtaque());
         }
 
-        if (oSpriteRenderer.sprite.name.ToUpper().Contains("ATTACK") && oSpriteRenderer.sprite.name.Contains("2_6"))
-        {
-            oAnimator.SetTrigger("parouDeAtacar");
-        }
-
-        // AjustaHitboxAtaque("player_animacao_ataque");
-
-
-
-
+        // 6. Remover o bloco que verifica o nome do sprite para ataque
+        // (bloco removido)
     }
 
     private void FixedUpdate()
     {
         // Impede movimentação horizontal durante o ataque (opcional)
         if (isAttacking) return;
-
 
         float nVelocidade = Math.Abs(Input.GetAxis("Horizontal")) == 1 ? runSpeed : walkSpeed;
 
@@ -151,17 +149,28 @@ public class Jogador : MonoBehaviour
         }
     }
 
-
     /*
     *********************
     *   Funções nossas  *                       
     *********************
     */
+
+    // 4. Substitua o conteúdo da função RealizarAtaque
     private IEnumerator RealizarAtaque()
     {
         isAttacking = true;
-        oAnimator.SetTrigger("Attack");
-        yield return new WaitForSeconds(tempoAnimacaoDeAtaque);
+        oAnimator.SetTrigger("podeAtacar");
+
+        // Espera um pouco para a animação começar
+        yield return new WaitForSeconds(0.1f);
+        if (hitboxAtaque != null) hitboxAtaque.SetActive(true);
+
+        // Deixa a hitbox ativa por um curto período
+        yield return new WaitForSeconds(0.2f);
+        if (hitboxAtaque != null) hitboxAtaque.SetActive(false);
+
+        // Espera o resto da animação para poder atacar de novo
+        yield return new WaitForSeconds(tempoAnimacaoDeAtaque - 0.3f);
         isAttacking = false;
     }
 
@@ -182,51 +191,7 @@ public class Jogador : MonoBehaviour
         }
     }
 
-    private void AjustaHitboxAtaque(string sNomeAnimacaoAtaque)
-    {
-        /*
-        *****************************************************************
-        *   Controller do tamanho do Hitbox de Ataque ("BoxCollider2D") *                       
-        *****************************************************************
-        */
-        // Por padrão o collider de ataque é desativado
-        oBoxCollider2d.enabled = false;
-        // Ativamos 'isTrigger' para o uso da função 'OnTriggerEnter2D' em inimigos
-        oBoxCollider2d.isTrigger = true;
-
-
-        int iBaseLayer = 0;
-        var oAnimacaoAtiva = oAnimator.GetCurrentAnimatorStateInfo(iBaseLayer);
-        int iHashNomeAnimacaoDesejada = Animator.StringToHash(sNomeAnimacaoAtaque);
-        int iHashNomeAnimacaoAtiva = oAnimacaoAtiva.shortNameHash;
-
-        if (iHashNomeAnimacaoDesejada == iHashNomeAnimacaoAtiva)
-        {
-            oBoxCollider2d.enabled = true;
-            float nComprimentoSprite = oSpriteRenderer.sprite.rect.width / oSpriteRenderer.sprite.pixelsPerUnit;
-            float nNovoComprimentoCollider = nComprimentoSprite / 2;
-
-            // O comprimento do collider é metade do tamanho do sprite
-            oBoxCollider2d.size = new Vector2(
-                nNovoComprimentoCollider,
-                oBoxCollider2d.size.y
-            );
-            // O collider está centralizado no ponto x:0 do player, porém ancorado pelo centro do collider
-            // Agora ele continuará no ponto x:0 do player, porém ancorado pela esquerda do collider.
-            // e considerando se ele está virado para esquerda ou para a direita
-            bool estaViradoParaDireita = oSpriteRenderer.flipX == false;
-
-            float nOffsetX = Math.Abs(nNovoComprimentoCollider / 2);
-
-            if (!estaViradoParaDireita) { nOffsetX = -nOffsetX; }
-
-            oBoxCollider2d.offset = new Vector2(
-                nOffsetX,
-                oBoxCollider2d.offset.y
-            );
-
-        }
-    }
+    // 5. Função AjustaHitboxAtaque removida
 
     private void AjustaHitboxCorpoPersonagem()
     {
@@ -235,7 +200,6 @@ public class Jogador : MonoBehaviour
             oBoxCollider2d.size.y
         );
     }
-
 
     private IEnumerator Morre()
     {
@@ -248,13 +212,11 @@ public class Jogador : MonoBehaviour
                 transform.position.y + (-oSpriteRenderer.bounds.extents.y),
                 transform.position.z
             );
-
         }
 
         if (oSpriteRenderer.sprite.name.StartsWith("DEATH"))
         {
             transform.position = oPosMorte;
-
         }
 
         if (oSpriteRenderer.sprite.name.StartsWith("DEATH_8"))
@@ -268,9 +230,6 @@ public class Jogador : MonoBehaviour
             if (oPontoDeSpawn == null) { yield break; }
 
             this.transform.position = oPontoDeSpawn.transform.position;
-            
         }
-
     }
-
 }
