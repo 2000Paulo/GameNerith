@@ -5,7 +5,7 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Configurações de Vida")]
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     [Header("Eventos")]
     public UnityEvent<int, int> OnHealthChanged; // (vida atual, vida máxima)
@@ -41,7 +41,13 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Jogador morreu!");
+        Invoke("ChamarGameOver", 1f);
         // gameObject.SetActive(false);
+    }
+
+    private void ChamarGameOver()
+    {
+        GameManager.instance.GameOver();
     }
 
     public int GetHealth()

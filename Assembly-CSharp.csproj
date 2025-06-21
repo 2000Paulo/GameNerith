@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\GuerreiroComVisao.cs" />
     <Compile Include="Assets\Scenes\TransicaoDeFase.cs" />
+    <Compile Include="Assets\platformer items - free assets\platformer items - free assets\Moeda.cs" />
     <Compile Include="Assets\Monster_Creatures_Fantasy(Version 1.3)\Monster_Creatures_Fantasy(Version 1.3)\Monsters_Creatures_Fantasy\Monsters_Creatures_Fantasy\Flying eye\InimigoAtaqueHitbox.cs" />
     <Compile Include="Assets\FREE_Samurai 2D Pixel Art v1.2\aniamoes\PlayerMovement.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
@@ -189,6 +190,7 @@
     <None Include="Assets\Fase2\BatSprites\BatSprites\Licence.txt" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\platformer items - free assets\platformer items - free assets\README.txt" />
     <None Include="Assets\craftpix-net-258377-free-fishing-game-assets-pixel-art-pack\Font.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
