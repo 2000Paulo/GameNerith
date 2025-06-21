@@ -17,6 +17,7 @@ public class EnemyPatrol : MonoBehaviour
     private Animator anim;
     private Vector2 startPosition;
     private Vector2 targetPosition;
+    private float moveDirection = 0f;
 
     private bool movingRight = true;
     private bool isWaiting = false;
@@ -45,7 +46,8 @@ public class EnemyPatrol : MonoBehaviour
 
         if (isWaiting)
         {
-            anim.SetBool("isWalking", false);
+            moveDirection = 0f;
+            anim.SetFloat("Speed", moveDirection);
             waitCounter -= Time.deltaTime;
 
             if (waitCounter <= 0f)
@@ -56,15 +58,15 @@ public class EnemyPatrol : MonoBehaviour
         }
         else
         {
+            // Calcula a direção do movimento
+            moveDirection = targetPosition.x > transform.position.x ? 1f : -1f;
+            anim.SetFloat("Speed", Mathf.Abs(moveDirection));
+
             // Inverter sprite conforme direção
             Vector3 scale = transform.localScale;
-            if (targetPosition.x > transform.position.x)
-                scale.x = Mathf.Abs(scale.x);
-            else if (targetPosition.x < transform.position.x)
-                scale.x = -Mathf.Abs(scale.x);
+            scale.x = Mathf.Abs(scale.x) * (moveDirection > 0 ? 1 : -1);
             transform.localScale = scale;
 
-            anim.SetBool("isWalking", true);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, targetPosition) < 0.01f)
@@ -86,37 +88,27 @@ public class EnemyPatrol : MonoBehaviour
     private IEnumerator Shoot()
     {
         isShooting = true;
-        anim.SetTrigger("shoot"); // animação deve ter AnimationEvent chamando AtivarFlecha()
+        moveDirection = 0f;
+        anim.SetFloat("Speed", moveDirection);
+        anim.SetTrigger("shoot");
         yield return new WaitForSeconds(shootDelay);
-        // AtivarFlecha será chamado pela animação
     }
 
-    // Chamado na animação de ataque com Animation Event
     public void AtivarFlecha()
     {
-        Debug.Log("➡️ Flecha instanciada em: " + pontoDeDisparo.position);
-
         GameObject novaFlecha = Instantiate(flechaPrefab, pontoDeDisparo.position, Quaternion.identity);
 
         Rigidbody2D rb = novaFlecha.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.simulated = true;
-
             Vector2 direcao = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
             rb.AddForce(direcao * 10f, ForceMode2D.Impulse);
-
-            Debug.Log("🡆 Força aplicada na direção: " + direcao);
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ Rigidbody2D não encontrado na flecha instanciada.");
         }
 
         canShoot = false;
     }
 
-    // Chamado pela flecha quando colide com o chão
     public void PermitirNovoTiro()
     {
         if (playerInSight)
@@ -125,7 +117,6 @@ public class EnemyPatrol : MonoBehaviour
         isShooting = false;
     }
 
-    // Chamado pelo objeto VisaoInimigo (filho com BoxCollider2D trigger)
     public void SetPlayerInSight(bool status)
     {
         playerInSight = status;

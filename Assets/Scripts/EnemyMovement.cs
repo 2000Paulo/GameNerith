@@ -7,9 +7,6 @@ public class EnemyMovement : MonoBehaviour
     public AudioClip shootSound;
     private AudioSource audioSource;
 
-    private float walkCooldown = 0f;
-    private bool isRetreating = false;
-
     [Header("Movimento")]
     public float speed = 2f;
     public Transform pointA;
@@ -21,70 +18,68 @@ public class EnemyMovement : MonoBehaviour
     public float shootInterval = 2f;
 
     [Header("Comportamento")]
-    public float visionRange = 4f;
-    public float idealMinDistance = 2f;
-    public float idealMaxDistance = 4f;
+    public float visionRange = 5f;
+    public float idealMinDistance = 2.5f;
+    public float idealMaxDistance = 4.5f;
 
-    // ─── Adicionado ──────────────────────────────────────────────────────────────
     [Header("Dissolve Settings")]
-    public Material dissolveMaterial;   // material usando Custom/SpriteDissolve.shader
-    public Texture2D noiseTexture;      // sua noise mask
-    public float dissolveDuration = 1f; // duração do efeito
+    public Material dissolveMaterial;
+    public Texture2D noiseTexture;
+    public float dissolveDuration = 1f;
 
-    private Material _matInstance;      // instância do material
-    // ───────────────────────────────────────────────────────────────────────────────
-
+    private Material _matInstance;
     private Rigidbody2D rb;
     private Transform player;
     private SpriteRenderer sprite;
     private Animator animator;
+
     private float timer;
     private Vector2 patrolTarget;
     private Vector2 moveTarget;
     private bool isShooting = false;
+    private bool isRetreating = false;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        sprite = GetComponent<SpriteRenderer>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        patrolTarget = pointB.position;
 
-        // ─── Instancia o material de dissolve ───────────────────────────────────
+        patrolTarget = pointB.position;
+        moveTarget = patrolTarget;
+
         if (dissolveMaterial != null && noiseTexture != null)
         {
             _matInstance = Instantiate(dissolveMaterial);
             _matInstance.SetTexture("_NoiseTex", noiseTexture);
             _matInstance.SetFloat("_Cutoff", 0f);
         }
-        // ─────────────────────────────────────────────────────────────────────────
     }
 
     void Update()
     {
         if (player == null) return;
 
-        // --------- TESTE DE MORTE COM "F" ------------
         if (Input.GetKeyDown(KeyCode.F))
         {
             TriggerDeath();
-            return; // não processa mais
+            return;
         }
-        // ---------------------------------------------
 
         float distance = Vector2.Distance(transform.position, player.position);
+        bool playerVisible = PlayerInSight();
 
-        if (distance <= visionRange)
+        if (playerVisible && distance <= visionRange)
         {
             FlipSprite(player.position.x);
+
             if (!isShooting)
             {
                 DetectAndShoot(distance);
                 ActBasedOnDistance(distance);
             }
-            UpdateAnimations();
         }
         else
         {
@@ -96,7 +91,10 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.MovePosition(Vector2.MoveTowards(rb.position, moveTarget, speed * Time.fixedDeltaTime));
+        if (!isShooting)
+        {
+            rb.MovePosition(Vector2.MoveTowards(rb.position, moveTarget, speed * Time.fixedDeltaTime));
+        }
     }
 
     void Patrol()
@@ -104,10 +102,11 @@ public class EnemyMovement : MonoBehaviour
         moveTarget = patrolTarget;
 
         if (Vector2.Distance(rb.position, patrolTarget) < 0.1f)
-            patrolTarget = (Vector2)patrolTarget == (Vector2)pointA.position ? pointB.position : pointA.position;
+        {
+            patrolTarget = patrolTarget == (Vector2)pointA.position ? pointB.position : pointA.position;
+        }
 
         FlipSprite(patrolTarget.x);
-        animator.SetBool("isWalking", true);
     }
 
     void ActBasedOnDistance(float distance)
@@ -115,18 +114,15 @@ public class EnemyMovement : MonoBehaviour
         if (distance > idealMaxDistance)
         {
             moveTarget = new Vector2(player.position.x, rb.position.y);
-            animator.SetBool("isWalking", true);
         }
         else if (distance < idealMinDistance)
         {
-            float direction = transform.position.x < player.position.x ? -1 : 1;
-            moveTarget = new Vector2(transform.position.x + direction * 1.5f, rb.position.y);
-            animator.SetBool("isWalking", true);
+            float dir = transform.position.x < player.position.x ? -1 : 1;
+            moveTarget = new Vector2(transform.position.x + dir * 1.5f, rb.position.y);
         }
         else
         {
             moveTarget = rb.position;
-            animator.SetBool("isWalking", false);
         }
     }
 
@@ -139,6 +135,7 @@ public class EnemyMovement : MonoBehaviour
         {
             StopAllCoroutines();
             animator.SetTrigger("attackNow");
+            animator.SetFloat("Speed", 0f);
             isRetreating = false;
             moveTarget = rb.position;
 
@@ -147,7 +144,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForAnimationAndShoot(string stateName, float normalizedTimeThreshold)
+    IEnumerator WaitForAnimationAndShoot(string stateName, float threshold)
     {
         isShooting = true;
         yield return null;
@@ -155,7 +152,7 @@ public class EnemyMovement : MonoBehaviour
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
             yield return null;
 
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < normalizedTimeThreshold)
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < threshold)
             yield return null;
 
         Shoot();
@@ -173,9 +170,9 @@ public class EnemyMovement : MonoBehaviour
 
         if (arrowPrefab != null && shootPoint != null)
         {
+            Vector2 dir = player.position.x < transform.position.x ? Vector2.left : Vector2.right;
             GameObject arrow = Instantiate(arrowPrefab, shootPoint.position, Quaternion.identity);
-            Vector2 direction = (player.position.x < transform.position.x) ? Vector2.left : Vector2.right;
-            arrow.GetComponent<Arrow>().SetDirection(direction);
+            arrow.GetComponent<Arrow>().SetDirection(dir);
         }
     }
 
@@ -184,37 +181,37 @@ public class EnemyMovement : MonoBehaviour
         sprite.flipX = isRetreating ? !(targetX < transform.position.x) : (targetX < transform.position.x);
     }
 
+    bool PlayerInSight()
+    {
+        float distanceX = Mathf.Abs(transform.position.x - player.position.x);
+        return distanceX <= visionRange;
+    }
+
     void UpdateAnimations()
     {
         if (isShooting)
         {
-            animator.SetBool("isWalking", false);
+            animator.SetFloat("Speed", 0f);
             return;
         }
 
         bool isMoving = Vector2.Distance(rb.position, moveTarget) > 0.01f;
-        animator.SetBool("isWalking", isMoving);
+        animator.SetFloat("Speed", isMoving ? 1f : 0f);
     }
 
     public void TriggerDeath()
     {
-        // Cancela qualquer ação
         StopAllCoroutines();
         isShooting = false;
-        animator.SetBool("isWalking", false);
+        animator.SetFloat("Speed", 0f);
+        rb.simulated = false;
 
-        // Troca para o material de dissolve (se estiver configurado)
         if (_matInstance != null)
             sprite.material = _matInstance;
 
-        // Desativa física imediata
-        rb.simulated = false;
-
-        // Inicia o efeito de dissolve
         StartCoroutine(DissolveRoutine());
     }
 
-    // ─── coroutine de dissolve ────────────────────────────────────────────────
     private IEnumerator DissolveRoutine()
     {
         if (_matInstance == null)
@@ -232,5 +229,18 @@ public class EnemyMovement : MonoBehaviour
         }
         Destroy(gameObject);
     }
-    // ───────────────────────────────────────────────────────────────────────────
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, visionRange);
+
+        if (sprite != null)
+        {
+            float dirX = sprite.flipX ? -1f : 1f;
+            Vector3 forwardEnd = transform.position + Vector3.right * dirX * visionRange;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, forwardEnd);
+        }
+    }
 }
