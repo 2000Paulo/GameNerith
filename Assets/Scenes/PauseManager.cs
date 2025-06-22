@@ -1,24 +1,30 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseManager : MonoBehaviour
 {
     public GameObject opcoesUI;
     private bool isPaused = false;
 
+    private static PauseManager instance;
+
     void Awake()
     {
-        // Evita múltiplos PauseManagers
-        if (Object.FindObjectsByType<PauseManager>(FindObjectsSortMode.None).Length > 1)
+        // Garante que só exista um PauseManager
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
+        instance = this;
         DontDestroyOnLoad(gameObject);
-        opcoesUI.SetActive(false);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (opcoesUI != null)
+            opcoesUI.SetActive(false);
     }
 
     private void OnDestroy()
@@ -28,15 +34,21 @@ public class PauseManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Destroi o PauseManager ao voltar pro menu principal
+        // Destroi se voltar pro menu principal (opcional)
         if (scene.name == "CenaPrincipalD")
         {
             Destroy(gameObject);
         }
 
-        // Garante que o jogo volte ao normal ao carregar cena nova
+        // Tenta reassociar UI se necessário
+        if (opcoesUI == null)
+        {
+            opcoesUI = GameObject.Find("OpcoesUI"); // ou o nome do seu painel
+        }
+
         Time.timeScale = 1f;
         isPaused = false;
+
         if (opcoesUI != null)
             opcoesUI.SetActive(false);
     }
@@ -59,8 +71,9 @@ public class PauseManager : MonoBehaviour
 
         Time.timeScale = 1f;
         isPaused = false;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked; // trava cursor no jogo
     }
 
     public void Pause()
@@ -70,8 +83,17 @@ public class PauseManager : MonoBehaviour
 
         Time.timeScale = 0f;
         isPaused = true;
-        Cursor.lockState = CursorLockMode.None;
+
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // Garante que o EventSystem esteja presente e ativo
+        if (EventSystem.current == null)
+        {
+            GameObject es = new GameObject("EventSystem");
+            es.AddComponent<EventSystem>();
+            es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        }
     }
 
     public void LoadMenuPrincipal()
