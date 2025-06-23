@@ -8,13 +8,15 @@ public class BolaDeFogo : MonoBehaviour
     private bool deveCair = false;
 
     private Rigidbody2D rb;
+    private bool colisaoHabilitada = false;
 
-    private bool colisaoHabilitada = false; // <- Controle de delay de colisão
+    [Header("Dano ao jogador")]
+    public int dano = 1; // Valor do dano que a bola causa
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0; // desativa a gravidade automática
+        rb.gravityScale = 0;
     }
 
     private void OnEnable()
@@ -26,14 +28,7 @@ public class BolaDeFogo : MonoBehaviour
 
     private void Update()
     {
-        if (deveCair)
-        {
-            rb.linearVelocity = Vector2.down * velocidade;
-        }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+        rb.linearVelocity = deveCair ? Vector2.down * velocidade : Vector2.zero;
     }
 
     public void Ativar()
@@ -46,7 +41,7 @@ public class BolaDeFogo : MonoBehaviour
     private IEnumerator HabilitarColisaoAposDelay()
     {
         colisaoHabilitada = false;
-        yield return null; // espera 1 frame
+        yield return null;
         colisaoHabilitada = true;
     }
 
@@ -60,19 +55,25 @@ public class BolaDeFogo : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!colisaoHabilitada)
-            return; // ainda não habilitou colisão, ignora
+            return;
 
         Debug.Log($"{name} colidiu com: {collision.gameObject.name}");
 
-        // Colisão com PLAYER
         if (collision.CompareTag("Player"))
         {
-            Debug.Log($"{name} atingiu o PLAYER e foi desativada.");
+            Debug.Log($"{name} atingiu o PLAYER.");
+
+            // Aplica dano
+            PlayerDamageReceiver receiver = collision.GetComponent<PlayerDamageReceiver>();
+            if (receiver != null)
+            {
+                receiver.ApplyDamage(dano, "bola de fogo");
+            }
+
             gameObject.SetActive(false);
             return;
         }
 
-        // Colisão com chão trigger (ex: seu elevador ou chão)
         if (collision.isTrigger && collision.gameObject.layer == LayerMask.NameToLayer("Default"))
         {
             Debug.Log($"{name} tocou o CHÃO (Trigger) e foi desativada.");
@@ -80,7 +81,6 @@ public class BolaDeFogo : MonoBehaviour
             return;
         }
 
-        // Colisão com chão NÃO-TRIGGER (colisor normal)
         if (!collision.isTrigger && collision.gameObject.layer == LayerMask.NameToLayer("Default"))
         {
             Debug.Log($"{name} tocou o CHÃO (Collider normal) e foi desativada.");
