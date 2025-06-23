@@ -8,12 +8,18 @@ public class PontuacaoUI : MonoBehaviour
 
     void Start()
     {
+        // Carrega pontuação salva, se existir
+        pontos = EstadoDoJogador.pontuacaoAtual;
         AtualizarTexto();
     }
 
     public void AdicionarPontos(int quantidade)
     {
         pontos += quantidade;
+
+        // Atualiza pontuação global
+        EstadoDoJogador.pontuacaoAtual = pontos;
+
         AtualizarTexto();
     }
 

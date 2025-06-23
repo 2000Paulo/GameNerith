@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\LockScale.cs" />
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scenes\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Globais\EstadoDoJogador.cs" />
     <Compile Include="Assets\Scenes\MenuPrincipal.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\craftpix-785611-free-dungeon-platformer-pixel-art-tileset\PNG\Details\TrapFall.cs" />

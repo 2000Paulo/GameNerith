@@ -12,7 +12,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
+        // Carrega vida salva, se existir
+        currentHealth = EstadoDoJogador.vidaAtual > 0 ? EstadoDoJogador.vidaAtual : maxHealth;
+
         Debug.Log("Vida inicial: " + currentHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth); // Atualiza a UI no início
     }
@@ -21,6 +23,10 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Atualiza vida global
+        EstadoDoJogador.vidaAtual = currentHealth;
+
         Debug.Log("Dano recebido: " + amount + " | Vida atual: " + currentHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
@@ -34,6 +40,10 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // Atualiza vida global
+        EstadoDoJogador.vidaAtual = currentHealth;
+
         Debug.Log("Curado em: " + amount + " | Vida atual: " + currentHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
