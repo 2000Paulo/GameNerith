@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3512020650206594536}
   - component: {fileID: 4775369815966256034}
+  - component: {fileID: 8598332253214338480}
   m_Layer: 10
   m_Name: HitboxAtaque
   m_TagString: Untagged
@@ -78,6 +79,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6797943, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8598332253214338480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5513276654619569934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f491699cd0f238439203774eaf6ace5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  danoDoAtaque: 5
 --- !u!1 &8360472854421661424
 GameObject:
   m_ObjectHideFlags: 0

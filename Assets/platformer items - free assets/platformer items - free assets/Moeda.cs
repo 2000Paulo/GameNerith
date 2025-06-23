@@ -8,6 +8,8 @@ public class Moeda : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D col;
 
+    private bool foiColetada = false; // ✅ Proteção contra múltiplas coletas
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -17,25 +19,31 @@ public class Moeda : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (foiColetada) return; // ✅ Ignora se já foi coletada
+
         if (other.CompareTag("Player"))
         {
+            foiColetada = true;
             Coletar();
         }
     }
 
     private void Coletar()
     {
-        // Toca som
+        var contador = Object.FindFirstObjectByType<PontuacaoUI>();
+        if (contador != null)
+        {
+            contador.AdicionarPontos(100);
+        }
+
         if (somColeta != null)
         {
             audioSource.PlayOneShot(somColeta);
         }
 
-        // Desativa a parte visual e o colisor
         spriteRenderer.enabled = false;
         col.enabled = false;
 
-        // Destroi o objeto após o som acabar
-        Destroy(gameObject, somColeta.length);
+        Destroy(gameObject, somColeta != null ? somColeta.length : 0.1f);
     }
 }

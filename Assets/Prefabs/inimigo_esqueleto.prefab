@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e34608c88b77e48b6bc7eed48f12ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderBarraDeVida: {fileID: 209389785353634757}
+  BarraDeVida: {fileID: 209389785353634757}
   CorVidaCheia: {r: 0, g: 1, b: 0.103330135, a: 0}
   CorVidaBaixa: {r: 1, g: 0, b: 0, a: 0}
 --- !u!1 &805002923568623321
@@ -336,7 +336,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -371,7 +371,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -465,7 +465,7 @@ AudioSource:
   Priority: 113
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -500,7 +500,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

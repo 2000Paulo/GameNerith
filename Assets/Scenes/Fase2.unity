@@ -2561,7 +2561,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 0
-  orthographic size: 10
+  orthographic size: 7.296875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -81113,10 +81113,6 @@ PrefabInstance:
       propertyPath: gameOverUI
       value: 
       objectReference: {fileID: 170288633}
-    - target: {fileID: 7338641914003208987, guid: 00ac03b9bf178d042aadd0fc00fdb713, type: 3}
-      propertyPath: proximoSpawnPoint
-      value: SpawnPoint1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
