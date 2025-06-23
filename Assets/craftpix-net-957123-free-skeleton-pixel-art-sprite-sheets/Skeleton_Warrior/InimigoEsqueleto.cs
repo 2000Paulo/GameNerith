@@ -34,7 +34,6 @@ public class InimigoEsqueleto : MonoBehaviour
 
     private Animator anim;
     private Rigidbody2D rb;
-    private Vector2 startPosition;
     private Vector2 targetPosition;
 
     private bool movingLeft = true;
@@ -45,11 +44,12 @@ public class InimigoEsqueleto : MonoBehaviour
     private float invincibilityTimer = 0f;
     private float invincibilityDuration = 0.5f;
 
+    private Collider2D playerDetectado = null; // Membro da classe
+
     private void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        startPosition = transform.position;
         vidaAtual = vidaMaxima;
         SetNextTarget();
         tempoDesdeUltimoAtaque = intervaloDeAtaque;
@@ -85,16 +85,46 @@ public class InimigoEsqueleto : MonoBehaviour
             invincibilityTimer -= Time.deltaTime;
         }
 
-        Collider2D playerDetectado = Physics2D.OverlapCircle(transform.position, raioDeVisao, camadaPlayer);
+        playerDetectado = Physics2D.OverlapCircle(transform.position, raioDeVisao, camadaPlayer);
 
         if (playerDetectado != null)
         {   
-            Debug.Log("Esqueleto detectou o player: " + playerDetectado.name);
             ModoCombate(playerDetectado.transform);
         }
         else
         {
             ModoPatrulha();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // Movimento de patrulha usando física (movido do ModoPatrulha)
+        if (!isWaiting && playerDetectado == null && !isDead && invincibilityTimer <= 0)
+        {
+            anim.SetBool("isWalking", true);
+            // Tocar som de andar se não estiver tocando
+            if (audioSourceAndar != null && somAndar != null && !audioSourceAndar.isPlaying)
+            {
+                audioSourceAndar.clip = somAndar;
+                audioSourceAndar.Play();
+            }
+            Vector3 scale = transform.localScale;
+            scale.x = targetPosition.x < transform.position.x ? -1 : 1;
+            transform.localScale = scale;
+
+            if (rb != null)
+            {
+                Vector2 direcaoMovimento = (targetPosition - (Vector2)transform.position).normalized;
+                rb.linearVelocity = new Vector2(direcaoMovimento.x * speed, rb.linearVelocity.y);
+
+                if (Vector2.Distance(transform.position, targetPosition) < 0.1f) // Aumentamos o threshold
+                {
+                    isWaiting = true;
+                    waitCounter = waitTime;
+                    rb.linearVelocity = Vector2.zero;
+                }
+            }
         }
     }
 
@@ -107,6 +137,8 @@ public class InimigoEsqueleto : MonoBehaviour
         {
             audioSourceAndar.Stop();
         }
+
+        if (rb != null) rb.linearVelocity = Vector2.zero; // Parar movimento Rigidbody
 
         Vector3 scale = transform.localScale;
         scale.x = playerTransform.position.x < transform.position.x ? -1 : 1;
@@ -130,6 +162,7 @@ public class InimigoEsqueleto : MonoBehaviour
             {
                 audioSourceAndar.Stop();
             }
+            if (rb != null) rb.linearVelocity = Vector2.zero; // Parar Rigidbody
             return;
         }
 
@@ -139,10 +172,11 @@ public class InimigoEsqueleto : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
             // Parar som de andar se estiver tocando
-            if (audioSourceAndar != null && audioSourceAndar.isPlaying)
+            if (audioSourceAndar != null && audioSourceAndar.isPlaying) // CORREÇÃO
             {
                 audioSourceAndar.Stop();
             }
+            if (rb != null) rb.linearVelocity = Vector2.zero; // Parar Rigidbody
             waitCounter -= Time.deltaTime;
             if (waitCounter <= 0f)
             {
@@ -151,32 +185,16 @@ public class InimigoEsqueleto : MonoBehaviour
                 SetNextTarget();
             }
         }
-        else
-        {
-            anim.SetBool("isWalking", true);
-            // Tocar som de andar se não estiver tocando
-            if (audioSourceAndar != null && somAndar != null && !audioSourceAndar.isPlaying)
-            {
-                audioSourceAndar.clip = somAndar;
-                audioSourceAndar.Play();
-            }
-            Vector3 scale = transform.localScale;
-            scale.x = targetPosition.x < transform.position.x ? -1 : 1;
-            transform.localScale = scale;
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, targetPosition) < 0.01f)
-            {
-                isWaiting = true;
-                waitCounter = waitTime;
-            }
-        }
+        // O bloco else de movimento foi movido para FixedUpdate()
     }
 
     void SetNextTarget()
     {
-        float direction = movingLeft ? -1 : 1;
-        float steps = movingLeft ? leftSteps : rightSteps;
-        targetPosition = startPosition + new Vector2(direction * steps, 0);
+        float nextTargetX = movingLeft
+            ? transform.position.x - leftSteps
+            : transform.position.x + rightSteps;
+        targetPosition = new Vector2(nextTargetX, transform.position.y);
+        Debug.Log("Esqueleto: Novo Target: " + targetPosition + " | Direção: " + (movingLeft ? "Esquerda" : "Direita")); // LOG E
     }
     
     void OnTriggerEnter2D(Collider2D colliderDoAtaque)
@@ -248,5 +266,15 @@ public class InimigoEsqueleto : MonoBehaviour
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(pontoDeAtaque.position, raioDeDanoAtaque);
         }
+    }
+    private void OnDrawGizmos()
+    {
+        // Desenha a posição alvo para onde o esqueleto está indo
+        Gizmos.color = Color.blue; // Cor azul para o targetPosition
+        Gizmos.DrawWireSphere(targetPosition, 0.2f); // Desenha uma esfera pequena no targetPosition
+
+        // Desenha uma linha do esqueleto até o targetPosition
+        Gizmos.color = Color.cyan; // Cor ciano para a linha
+        Gizmos.DrawLine(transform.position, targetPosition);
     }
 }
