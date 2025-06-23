@@ -15,45 +15,25 @@ public class Jogador : MonoBehaviour
     private Rigidbody2D oRigidBody;
     private Animator oAnimator;
     private SpriteRenderer oSpriteRenderer;
-    private CapsuleCollider2D oCapsuleCollider2d;
     private BoxCollider2D oBoxCollider2d;
 
     // ESTADOS
-    private bool isRunning;
-    private bool correndo;
-    private bool isWalking;
-    // private bool pulando;
     private bool isGrounded;
-    private bool isAttacking = false; // NOVO
-
+    private String sAtaqueAtual = "ataqueNormal";
     private Vector3 oPosMorte;
-
-    // VARIÁVEIS QUE RECEBEM OS INPUTS
-    private float xAxiesInputDirection; // input do eixo x ( útil para a movimentação para a esquerda ou direita )
-    private float yAxiesInputDirection;
 
     // CONSTANTES QUE SÃO ACESSÍVEIS PELO "Inspector"
     public float walkSpeed = 2f;
     public float runSpeed = 5f;
     public float jumpSpeed = 5f;
-    public float tempoAnimacaoDeAtaque = 0.5f; // Duração da animação de ataque
-
-    // 1. Nova variável pública para a hitbox
-    public GameObject hitboxAtaque;
 
     private void Start()
     {
         oRigidBody = GetComponent<Rigidbody2D>();
         oAnimator = GetComponent<Animator>();
         oSpriteRenderer = GetComponent<SpriteRenderer>();
-        oCapsuleCollider2d = GetComponent<CapsuleCollider2D>();
         oBoxCollider2d = GetComponent<BoxCollider2D>();
 
-        // 2. Garante que a hitbox comece desativada
-        if (hitboxAtaque != null)
-        {
-            hitboxAtaque.SetActive(false);
-        }
     }
 
     private void Update()
@@ -73,7 +53,7 @@ public class Jogador : MonoBehaviour
         foreach (var oColisaoDetectada in aColisoesDetectadas)
         {
             if (
-                oColisaoDetectada.collider?.name?.Trim().ToUpper() == "GROUND" ||
+                oColisaoDetectada.collider?.name?.Trim().ToUpper()  == "GROUND" ||
                 oColisaoDetectada.rigidbody?.name?.Trim().ToUpper() == "GROUND"
             )
             {
@@ -81,71 +61,77 @@ public class Jogador : MonoBehaviour
             }
         }
 
-        oAnimator.SetBool("isWalking", Input.GetAxisRaw("Horizontal") != 0);
-
-        oAnimator.SetFloat("Blend", Input.GetAxis("Horizontal"));
-        oAnimator.SetFloat("inputHorizontal", Input.GetAxis("Horizontal"));
-        oAnimator.SetFloat("inputVertical", Input.GetAxis("Vertical"));
+        oAnimator.SetFloat("inputHorizontal"   , Input.GetAxis("Horizontal"));
+        oAnimator.SetFloat("inputVertical"     , Input.GetAxis("Vertical"));
         oAnimator.SetFloat("velocidadeVertical", oRigidBody.linearVelocityY);
 
         if (oAnimator.GetBool("noChao") == true) { isGrounded = true; }
 
-        if (Input.GetAxisRaw("Vertical") > 0 && isGrounded)
+        if (Input.GetAxisRaw("Vertical") > 0 && oAnimator.GetBool("noChao") == true)
         {
             oRigidBody.linearVelocity = new Vector2(oRigidBody.linearVelocity.x, jumpSpeed);
             isGrounded = false;
             oAnimator.SetTrigger("podePular");
-            oAnimator.SetBool("pulando", !isGrounded);
-            oAnimator.SetBool("noChao", isGrounded);
+            oAnimator.SetBool("pulando", true);
+            oAnimator.SetBool("noChao" , false);
         }
 
-        // vira o sprite para a direita ou esquerda.
-        // dependendo da direção indicada pelo input (<-, ->, A, D) no eixo X
+
         AjustaHitboxCorpoPersonagem();
         AjustaDirecaoSprite();
 
         if (
             oAnimator.GetBool("pulando") == true &&
-            oAnimator.GetFloat("velocidadeVertical") == 0
+            oRigidBody.linearVelocityY == 0
         )
         {
             oAnimator.SetBool("pulando", false);
-            oAnimator.SetBool("noChao", true);
+            oAnimator.SetBool("noChao" , true);
             isGrounded = true;
         }
 
         StartCoroutine(Morre());
 
-        // 3. Substitua o bloco de ataque por este:
-        if (Input.GetKeyDown(KeyCode.Space) && !isAttacking)
+
+        AjustaHitboxAtaque();
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && !oSpriteRenderer.sprite.name.StartsWith("ATTACK"))
         {
-            StartCoroutine(RealizarAtaque());
+            oAnimator.SetTrigger("podeAtacar");
+            oAnimator.SetTrigger(sAtaqueAtual);
+            sAtaqueAtual = sAtaqueAtual == "ataqueNormal" ? "ataqueForte" : "ataqueNormal";
+
         }
 
-        // 6. Remover o bloco que verifica o nome do sprite para ataque
-        // (bloco removido)
+        if (
+            oSpriteRenderer.sprite.name.ToUpper().Contains("ATTACK") &&
+            (
+                oSpriteRenderer.sprite.name.Contains("2_6") ||
+                oSpriteRenderer.sprite.name.Contains("3_5")
+            )
+        )
+        {
+            oAnimator.SetTrigger("parouDeAtacar");
+        }
+
     }
 
     private void FixedUpdate()
     {
-        // Impede movimentação horizontal durante o ataque (opcional)
-        if (isAttacking) return;
-
         float nVelocidade = Math.Abs(Input.GetAxis("Horizontal")) == 1 ? runSpeed : walkSpeed;
 
         oRigidBody.linearVelocity = new Vector2(
-            nVelocidade * Input.GetAxisRaw("Horizontal"), // velocidade em x
+            nVelocidade * Input.GetAxisRaw("Horizontal"),
             oRigidBody.linearVelocity.y);
     }
 
-    // MOD
     void OnCollisionEnter2D(Collision2D collision)
     {
-        bool eOChao = collision.gameObject.CompareTag("Ground");
-        if (eOChao)
+        if (collision.gameObject.tag.ToUpper() == "GROUND")
         {
             isGrounded = true;
-            oAnimator.SetBool("noChao", isGrounded);
+            oAnimator.SetBool("noChao", true);
         }
     }
 
@@ -155,43 +141,47 @@ public class Jogador : MonoBehaviour
     *********************
     */
 
-    // 4. Substitua o conteúdo da função RealizarAtaque
-    private IEnumerator RealizarAtaque()
-    {
-        isAttacking = true;
-        oAnimator.SetTrigger("podeAtacar");
-
-        // Espera um pouco para a animação começar
-        yield return new WaitForSeconds(0.1f);
-        if (hitboxAtaque != null) hitboxAtaque.SetActive(true);
-
-        // Deixa a hitbox ativa por um curto período
-        yield return new WaitForSeconds(0.2f);
-        if (hitboxAtaque != null) hitboxAtaque.SetActive(false);
-
-        // Espera o resto da animação para poder atacar de novo
-        yield return new WaitForSeconds(tempoAnimacaoDeAtaque - 0.3f);
-        isAttacking = false;
-    }
-
     private void AjustaDirecaoSprite()
     {
-        float eixoX = Input.GetAxisRaw("Horizontal");
-
-        bool indoParaDireita = eixoX > 0;
-        bool indoParaEsquerda = eixoX < 0;
-
-        if (indoParaDireita)
+        if (Input.GetAxisRaw("Horizontal") > 0)
         {
             oSpriteRenderer.flipX = false;
         }
-        else if (indoParaEsquerda)
+        else if (Input.GetAxisRaw("Horizontal") < 0)
         {
             oSpriteRenderer.flipX = true;
         }
     }
 
-    // 5. Função AjustaHitboxAtaque removida
+    private void AjustaHitboxAtaque()
+    {
+        BoxCollider2D oHitboxCollider = GameObject.Find("PlayerAtualizado/HitboxAtaque").GetComponent<BoxCollider2D>();
+
+        oHitboxCollider.size = new Vector2(
+            (oSpriteRenderer.sprite.rect.width / oSpriteRenderer.sprite.pixelsPerUnit) / 2,
+            (oSpriteRenderer.sprite.rect.height / oSpriteRenderer.sprite.pixelsPerUnit)
+        );
+
+        oHitboxCollider.offset = new Vector2(
+            (oSpriteRenderer.sprite.rect.width / oSpriteRenderer.sprite.pixelsPerUnit) / 4,
+            0
+        );
+
+        oHitboxCollider.enabled = false;
+        if (
+            oSpriteRenderer.sprite.name.StartsWith("ATTACK") &&
+            (
+                oSpriteRenderer.sprite.name.Contains("2_3") ||
+                oSpriteRenderer.sprite.name.Contains("2_4") ||
+                oSpriteRenderer.sprite.name.Contains("3_2") ||
+                oSpriteRenderer.sprite.name.Contains("3_3")
+            )
+        )
+        {
+            oHitboxCollider.enabled = true;
+        }
+    }
+
 
     private void AjustaHitboxCorpoPersonagem()
     {
