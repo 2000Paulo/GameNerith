@@ -11,16 +11,12 @@ public class AtivaDialogo : MonoBehaviour
     {
         if (jogadorPerto && !dialogoAtivo && Input.GetKeyDown(KeyCode.P))
         {
-            dialogoPainel.SetActive(true); // ativa painel
-            animacaoTexto.StartTyping();   // inicia digitação
-            dialogoAtivo = true;
+            AbrirDialogo();
         }
 
-        // Se o diálogo estiver ativo, ENTER fecha
         if (dialogoAtivo && Input.GetKeyDown(KeyCode.Return))
         {
-            dialogoPainel.SetActive(false);
-            dialogoAtivo = false;
+            FecharDialogo();
         }
     }
 
@@ -37,6 +33,24 @@ public class AtivaDialogo : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             jogadorPerto = false;
+
+            if (dialogoAtivo)
+            {
+                FecharDialogo();
+            }
         }
+    }
+
+    void AbrirDialogo()
+    {
+        dialogoPainel.SetActive(true);
+        animacaoTexto.StartTyping();
+        dialogoAtivo = true;
+    }
+
+    void FecharDialogo()
+    {
+        dialogoPainel.SetActive(false);
+        dialogoAtivo = false;
     }
 }

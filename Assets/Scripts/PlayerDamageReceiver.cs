@@ -11,6 +11,8 @@ public class PlayerDamageReceiver : MonoBehaviour
     public float fallDamageMultiplier = 5f;   // Multiplicador de dano baseado na velocidade
     private float lastYVelocity;
 
+    [HideInInspector] public bool estaInvulneravel = false;
+
     void Start()
     {
         playerHealth = GetComponent<PlayerHealth>();
@@ -42,6 +44,12 @@ public class PlayerDamageReceiver : MonoBehaviour
     // Método genérico para aplicar dano
     public void ApplyDamage(int amount, string source)
     {
+        if (estaInvulneravel)
+        {
+            Debug.Log("Jogador está invulnerável. Dano ignorado.");
+            return;
+        }
+
         Debug.Log($"Recebeu {amount} de dano por {source}.");
         playerHealth.TakeDamage(amount);
     }

@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\LockScale.cs" />
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scenes\GameManager.cs" />
+    <Compile Include="Assets\Pixel Art Platformer - Village Props v2.3.0\Texture\Feno.cs" />
     <Compile Include="Assets\Scripts\Globais\EstadoDoJogador.cs" />
     <Compile Include="Assets\Scenes\MenuPrincipal.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
