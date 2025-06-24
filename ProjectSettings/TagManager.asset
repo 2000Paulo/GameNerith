@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Chao
   - Inimigo
+  - PontaDeParede
   layers:
   - Default
   - TransparentFX

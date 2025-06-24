@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using DbHelpers;
 using System.ComponentModel.Design.Serialization;
 using UnityEngine.Analytics;
+using UnityEngine.Tilemaps;
 
 public class Jogador : MonoBehaviour
 {
@@ -115,6 +116,22 @@ public class Jogador : MonoBehaviour
             oAnimator.SetTrigger("parouDeAtacar");
         }
 
+
+        if (oSpriteRenderer.sprite.name.ToUpper() == "CLIMBING_7")
+        {
+            DbDebugger.DebugObject(oSpriteRenderer);
+            oAnimator.SetTrigger("parouDeEscalar");
+            GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = true;
+            oRigidBody.constraints = RigidbodyConstraints2D.None;
+            oRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            this.transform.position = new Vector3(
+                oSpriteRenderer.bounds.center.x + (oSpriteRenderer.bounds.extents.x / 2),
+                oSpriteRenderer.bounds.center.y,
+                0
+            );
+        }
+
+
     }
 
     private void FixedUpdate()
@@ -124,6 +141,17 @@ public class Jogador : MonoBehaviour
         oRigidBody.linearVelocity = new Vector2(
             nVelocidade * Input.GetAxisRaw("Horizontal"),
             oRigidBody.linearVelocity.y);
+    }
+
+    void OnTriggerEnter2D(Collider2D oContato)
+    {
+        if (oContato.tag.ToUpper() == "PONTADEPAREDE")
+        {
+            oAnimator.SetTrigger("podeEscalar");
+            GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = false;
+            oRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            this.transform.position = GameObject.Find("PontaDeParede/Ancora").GetComponent<CircleCollider2D>().bounds.center;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
