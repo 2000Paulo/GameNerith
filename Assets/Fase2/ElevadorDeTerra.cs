@@ -37,12 +37,6 @@ public class ElevadorDeTerra : MonoBehaviour
         if (collision.collider.CompareTag("Player") && jogadorEmCima != null)
         {
             StartCoroutine(SoltarPlayerNoProximoFrame());
-
-            if (rotinaElevador != null)
-            {
-                StopCoroutine(rotinaElevador);
-                rotinaElevador = null;
-            }
         }
     }
 
@@ -55,7 +49,6 @@ public class ElevadorDeTerra : MonoBehaviour
             elevadorAtivado = true;
             rotinaElevador = StartCoroutine(ControlarElevador());
 
-            // 🔥 Dispara as bolas de fogo, se FireControlador estiver atribuído
             if (fireControlador != null)
             {
                 fireControlador.DispararTodas();

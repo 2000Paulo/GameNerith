@@ -10,6 +10,9 @@ public class BatEnimie : MonoBehaviour
     public float timeBeforeAttack = 1f;
     public float returnToSleepTime = 1.5f;
 
+    [Header("Hitbox de Dano")]
+    public GameObject zonaDeAtaque; // ← arraste aqui seu filho com o collider
+
     private Vector3 sleepPosition;
     private Transform player;
     private SpriteRenderer spriteRenderer;
@@ -26,6 +29,9 @@ public class BatEnimie : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(false); // garante que começa desativada
 
         animator.Play("BatSleep");
     }
@@ -50,25 +56,17 @@ public class BatEnimie : MonoBehaviour
     {
         isAwake = true;
 
-        // ⏱️ Delay antes de acordar
         yield return new WaitForSeconds(1f);
-
         animator.SetTrigger("Wake");
-        yield return new WaitForSeconds(0.5f); // tempo da animação BatWake
-
+        yield return new WaitForSeconds(0.5f);
         animator.Play("BatFly");
 
-        // ⏱️ NOVO: espera mais 2 segundos antes de iniciar ataques
         yield return new WaitForSeconds(2f);
 
         if (playerInSight)
-        {
             StartCoroutine(FlyAndAttackLoop());
-        }
         else
-        {
             StartCoroutine(ReturnToSleep());
-        }
     }
 
     private IEnumerator FlyAndAttackLoop()
@@ -89,43 +87,41 @@ public class BatEnimie : MonoBehaviour
         yield return new WaitForSeconds(returnToSleepTime);
 
         if (!playerInSight)
-        {
             StartCoroutine(ReturnToSleep());
-        }
         else
-        {
             StartCoroutine(FlyAndAttackLoop());
-        }
     }
 
     private IEnumerator Attack()
     {
         isAttacking = true;
-
         Vector3 attackTarget = player.position;
 
-        // ✅ Corrigido: trava a direção corretamente antes do rasante
         bool goingLeft = attackTarget.x < transform.position.x;
         spriteRenderer.flipX = goingLeft;
 
-        yield return new WaitForSeconds(0.3f); // hover antes do ataque
+        yield return new WaitForSeconds(0.3f);
+
+        // 🔥 Ativa a hitbox de ataque
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(true);
 
         while (Vector3.Distance(transform.position, attackTarget) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, attackTarget, dashSpeed * Time.deltaTime);
-
-            // ❌ NÃO atualiza mais a direção aqui, ela já está travada
             yield return null;
         }
 
-        // ✅ Garante que ele ainda está virado na direção certa
         spriteRenderer.flipX = goingLeft;
-
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.4f); // tempo da animação de ataque
+        yield return new WaitForSeconds(0.4f);
 
-        // Volta para cima após ataque
+        // 🧊 Desativa a hitbox após o ataque
+        if (zonaDeAtaque != null)
+            zonaDeAtaque.SetActive(false);
+
         animator.Play("BatFly");
+
         while (Vector3.Distance(transform.position, sleepPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, sleepPosition, speed * Time.deltaTime);
