@@ -160,6 +160,8 @@ public class Jogador : MonoBehaviour
             oAnimator.SetFloat("inputHorizontal"   , 0);
             oAnimator.SetFloat("inputVertical"     , 0);
             oAnimator.SetFloat("velocidadeVertical", 0);
+            oAnimator.SetBool("noChao", false);
+            oAnimator.SetBool("pulando", false);
             bTravaParametrosAnimator = true;
             oAnimator.SetTrigger("podeEscalar");
             GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = false;
