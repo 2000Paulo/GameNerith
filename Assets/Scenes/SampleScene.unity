@@ -38390,7 +38390,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 3.703125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -77991,7 +77991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1227983085}
   - component: {fileID: 1227983086}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PontaDeParede
   m_TagString: PontaDeParede
   m_Icon: {fileID: 0}
@@ -78048,7 +78048,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.0360079, y: 0.30387986}
+  m_Offset: {x: 1.0360079, y: 0.22100401}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -78058,7 +78058,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.2679844, y: 0.25423265}
+  m_Size: {x: 0.2679844, y: 0.22108221}
   m_EdgeRadius: 0
 --- !u!1 &1271981750
 GameObject:
