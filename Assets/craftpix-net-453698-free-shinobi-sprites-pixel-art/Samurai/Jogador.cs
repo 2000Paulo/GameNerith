@@ -19,6 +19,7 @@ public class Jogador : MonoBehaviour
     private BoxCollider2D oBoxCollider2d;
 
     // ESTADOS
+    private bool bTravaParametrosAnimator = false;
     private bool isGrounded;
     private String sAtaqueAtual = "ataqueNormal";
     private Vector3 oPosMorte;
@@ -48,18 +49,44 @@ public class Jogador : MonoBehaviour
         ********************************************************
         */
 
+        AjustaHitboxCorpoPersonagem();
+        AjustaHitboxAtaque();
+
+        if (oSpriteRenderer.sprite.name.ToUpper() == "CLIMBING_7")
+        {
+            bTravaParametrosAnimator = false;
+            oAnimator.SetTrigger("parouDeEscalar");
+            GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = true;
+            oRigidBody.constraints = RigidbodyConstraints2D.None;
+            oRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            this.transform.position = new Vector3(
+                oSpriteRenderer.bounds.center.x + (oSpriteRenderer.bounds.extents.x / 2),
+                oSpriteRenderer.bounds.center.y,
+                0
+            );
+        }
+
+        if (bTravaParametrosAnimator) { return; }
+
+        AjustaDirecaoSprite();
+
         ContactPoint2D[] aColisoesDetectadas = new ContactPoint2D[10];
         int popularaColisoesDetectadas = oRigidBody.GetContacts(aColisoesDetectadas);
 
-        foreach (var oColisaoDetectada in aColisoesDetectadas)
+        foreach (var oContato in aColisoesDetectadas)
         {
+
             if (
-                oColisaoDetectada.collider?.name?.Trim().ToUpper()  == "GROUND" ||
-                oColisaoDetectada.rigidbody?.name?.Trim().ToUpper() == "GROUND"
+                oContato.collider?.name?.Trim().ToUpper()  == "GROUND" ||
+                oContato.rigidbody?.name?.Trim().ToUpper() == "GROUND"
             )
             {
                 oAnimator.SetBool("noChao", true);
             }
+
+
+
+
         }
 
         oAnimator.SetFloat("inputHorizontal"   , Input.GetAxis("Horizontal"));
@@ -78,8 +105,7 @@ public class Jogador : MonoBehaviour
         }
 
 
-        AjustaHitboxCorpoPersonagem();
-        AjustaDirecaoSprite();
+
 
         if (
             oAnimator.GetBool("pulando") == true &&
@@ -94,7 +120,6 @@ public class Jogador : MonoBehaviour
         StartCoroutine(Morre());
 
 
-        AjustaHitboxAtaque();
 
 
         if (Input.GetKeyDown(KeyCode.Space) && !oSpriteRenderer.sprite.name.StartsWith("ATTACK"))
@@ -117,21 +142,6 @@ public class Jogador : MonoBehaviour
         }
 
 
-        if (oSpriteRenderer.sprite.name.ToUpper() == "CLIMBING_7")
-        {
-            DbDebugger.DebugObject(oSpriteRenderer);
-            oAnimator.SetTrigger("parouDeEscalar");
-            GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = true;
-            oRigidBody.constraints = RigidbodyConstraints2D.None;
-            oRigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            this.transform.position = new Vector3(
-                oSpriteRenderer.bounds.center.x + (oSpriteRenderer.bounds.extents.x / 2),
-                oSpriteRenderer.bounds.center.y,
-                0
-            );
-        }
-
-
     }
 
     private void FixedUpdate()
@@ -145,17 +155,25 @@ public class Jogador : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D oContato)
     {
-        if (oContato.tag.ToUpper() == "PONTADEPAREDE")
+        if (oContato.tag.ToUpper() == "PONTADEPAREDE" && oRigidBody.linearVelocityY > 0)
         {
+            if (oContato.gameObject.layer == 12) { oSpriteRenderer.flipX = false; } else { oSpriteRenderer.flipX = true; }
+            oAnimator.SetFloat("inputHorizontal"   , 0);
+            oAnimator.SetFloat("inputVertical"     , 0);
+            oAnimator.SetFloat("velocidadeVertical", 0);
+            oAnimator.SetBool("noChao", false);
+            oAnimator.SetBool("pulando", false);
+            bTravaParametrosAnimator = true;
             oAnimator.SetTrigger("podeEscalar");
             GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = false;
-            oRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY;
+            oRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
             this.transform.position = GameObject.Find("PontaDeParede/Ancora").GetComponent<CircleCollider2D>().bounds.center;
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (bTravaParametrosAnimator) { return; }
         if (collision.gameObject.tag.ToUpper() == "GROUND")
         {
             isGrounded = true;
