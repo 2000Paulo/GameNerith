@@ -49,7 +49,6 @@ public class Jogador : MonoBehaviour
         ********************************************************
         */
 
-        AjustaDirecaoSprite();
         AjustaHitboxCorpoPersonagem();
         AjustaHitboxAtaque();
 
@@ -68,6 +67,8 @@ public class Jogador : MonoBehaviour
         }
 
         if (bTravaParametrosAnimator) { return; }
+
+        AjustaDirecaoSprite();
 
         ContactPoint2D[] aColisoesDetectadas = new ContactPoint2D[10];
         int popularaColisoesDetectadas = oRigidBody.GetContacts(aColisoesDetectadas);
