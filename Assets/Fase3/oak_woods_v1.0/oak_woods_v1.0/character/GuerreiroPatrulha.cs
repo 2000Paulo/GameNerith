@@ -5,7 +5,6 @@ public class GuerreiroPatrulha : MonoBehaviour
     public Transform pontoA;
     public Transform pontoB;
     public float velocidade = 2f;
-    public float distanciaVisao = 5f;
     public float distanciaAtaque = 1.2f;
     public float tempoEntreAtaques = 2f;
     public Transform player;
@@ -16,8 +15,8 @@ public class GuerreiroPatrulha : MonoBehaviour
     private bool podeAtacar = true;
     private Vector3 ultimaPosicao;
 
-    // NOVO: referência ao MeleeAttackController
     private MeleeAttackController ataqueMelee;
+    private float distanciaVisao;
 
     void Start()
     {
@@ -28,8 +27,11 @@ public class GuerreiroPatrulha : MonoBehaviour
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // NOVO: pega o MeleeAttackController no mesmo objeto
         ataqueMelee = GetComponent<MeleeAttackController>();
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        // Calcula a distância de visão com base nos pontos A e B
+        distanciaVisao = Vector2.Distance(pontoA.position, pontoB.position);
     }
 
     void Update()
@@ -38,18 +40,31 @@ public class GuerreiroPatrulha : MonoBehaviour
 
         float distanciaDoPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanciaDoPlayer <= distanciaVisao)
+        // Raycast: vê o player apenas se não houver parede no caminho E dentro da faixa
+        bool temVisaoLivre = false;
+
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            (player.position - transform.position).normalized,
+            distanciaVisao,
+            LayerMask.GetMask("Ground", "Player")
+        );
+
+        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        {
+            temVisaoLivre = true;
+        }
+
+        if (distanciaDoPlayer <= distanciaVisao && temVisaoLivre)
         {
             seguindoPlayer = true;
 
             if (distanciaDoPlayer <= distanciaAtaque)
             {
-                // Ataca o player se puder
                 if (podeAtacar)
                 {
                     animator.SetTrigger("Attack");
 
-                    // NOVO: ativa o ataque melee
                     if (ataqueMelee != null)
                         ataqueMelee.TriggerAttack();
 
@@ -57,12 +72,10 @@ public class GuerreiroPatrulha : MonoBehaviour
                     Invoke(nameof(ResetarAtaque), tempoEntreAtaques);
                 }
 
-                // Para o movimento durante ataque
                 animator.SetFloat("Speed", 0);
                 return;
             }
 
-            // Persegue o player se não estiver na distância de ataque
             MoverPara(player.position);
         }
         else
@@ -71,7 +84,6 @@ public class GuerreiroPatrulha : MonoBehaviour
             Patrulhar();
         }
 
-        // Animação de movimento
         float velocidadeFrame = (transform.position - ultimaPosicao).magnitude / Time.deltaTime;
         animator.SetFloat("Speed", velocidadeFrame);
         ultimaPosicao = transform.position;
@@ -86,9 +98,15 @@ public class GuerreiroPatrulha : MonoBehaviour
     {
         MoverPara(destinoAtual);
 
-        if (Vector2.Distance(transform.position, destinoAtual) < 0.1f)
+        Vector2 pos2D = new Vector2(transform.position.x, transform.position.y);
+        Vector2 destino2D = new Vector2(destinoAtual.x, destinoAtual.y);
+
+        if (Vector2.Distance(pos2D, destino2D) < 0.1f)
         {
-            destinoAtual = destinoAtual == pontoA.position ? pontoB.position : pontoA.position;
+            if (Vector2.Distance(destino2D, pontoB.position) < 0.1f)
+                destinoAtual = pontoA.position;
+            else
+                destinoAtual = pontoB.position;
         }
     }
 
@@ -97,7 +115,6 @@ public class GuerreiroPatrulha : MonoBehaviour
         Vector3 direcao = (destino - transform.position).normalized;
         transform.position += direcao * velocidade * Time.deltaTime;
 
-        // Flip
         if (direcao.x > 0)
             transform.localScale = new Vector3(1, 1, 1);
         else if (direcao.x < 0)

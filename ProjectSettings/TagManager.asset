@@ -10,6 +10,7 @@ TagManager:
   - Chao
   - Inimigo
   - PontaDeParede
+  - LuzTrigger
   layers:
   - Default
   - TransparentFX

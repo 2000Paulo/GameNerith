@@ -107,6 +107,7 @@
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\VisaoInimigo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Warrior\InimigoEsqueleto.cs" />
+    <Compile Include="Assets\Fase2\Trap and Weapon\Jumper.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Scenes\PauseManager.cs" />
     <Compile Include="Assets\Fase2\DarkFantasyEnemies_FREE\Bat\Bat with VFX\VidaMorcego.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Fase2\PlataformaMovel.cs" />
+    <Compile Include="Assets\Fase 4\PixelPlatformerSet1v.1.1\Anim\AtivadorDeLuminaria.cs" />
     <Compile Include="Assets\Scripts\Arrow.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Skeleton_Archer\Flecha.cs" />
@@ -170,6 +172,7 @@
     <None Include="Assets\Fase3\oak_woods_v1.0\oak_woods_v1.0\readme.TXT" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Roboto-Bold - License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\Fase 4\PixelPlatformerSet1v.1.1\public-license.txt" />
     <None Include="Assets\craftpix-net-957123-free-skeleton-pixel-art-sprite-sheets\Font.txt" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Unity - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

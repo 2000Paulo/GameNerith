@@ -35,7 +35,6 @@ public class Jogador : MonoBehaviour
         oAnimator = GetComponent<Animator>();
         oSpriteRenderer = GetComponent<SpriteRenderer>();
         oBoxCollider2d = GetComponent<BoxCollider2D>();
-
     }
 
     private void Update()
@@ -75,7 +74,6 @@ public class Jogador : MonoBehaviour
 
         foreach (var oContato in aColisoesDetectadas)
         {
-
             if (
                 oContato.collider?.name?.Trim().ToUpper()  == "GROUND" ||
                 oContato.rigidbody?.name?.Trim().ToUpper() == "GROUND"
@@ -83,10 +81,6 @@ public class Jogador : MonoBehaviour
             {
                 oAnimator.SetBool("noChao", true);
             }
-
-
-
-
         }
 
         oAnimator.SetFloat("inputHorizontal"   , Input.GetAxis("Horizontal"));
@@ -104,9 +98,6 @@ public class Jogador : MonoBehaviour
             oAnimator.SetBool("noChao" , false);
         }
 
-
-
-
         if (
             oAnimator.GetBool("pulando") == true &&
             oRigidBody.linearVelocityY == 0
@@ -119,15 +110,11 @@ public class Jogador : MonoBehaviour
 
         StartCoroutine(Morre());
 
-
-
-
         if (Input.GetKeyDown(KeyCode.Space) && !oSpriteRenderer.sprite.name.StartsWith("ATTACK"))
         {
             oAnimator.SetTrigger("podeAtacar");
             oAnimator.SetTrigger(sAtaqueAtual);
             sAtaqueAtual = sAtaqueAtual == "ataqueNormal" ? "ataqueForte" : "ataqueNormal";
-
         }
 
         if (
@@ -140,8 +127,6 @@ public class Jogador : MonoBehaviour
         {
             oAnimator.SetTrigger("parouDeAtacar");
         }
-
-
     }
 
     private void FixedUpdate()
@@ -157,7 +142,17 @@ public class Jogador : MonoBehaviour
     {
         if (oContato.tag.ToUpper() == "PONTADEPAREDE" && oRigidBody.linearVelocityY > 0)
         {
-            if (oContato.gameObject.layer == 12) { oSpriteRenderer.flipX = false; } else { oSpriteRenderer.flipX = true; }
+            Vector3 posicaoAntesDeMover = transform.position;
+
+            if (posicaoAntesDeMover.x < oContato.transform.position.x)
+            {
+                oSpriteRenderer.flipX = true;
+            }
+            else
+            {
+                oSpriteRenderer.flipX = false;
+            }
+
             oAnimator.SetFloat("inputHorizontal"   , 0);
             oAnimator.SetFloat("inputVertical"     , 0);
             oAnimator.SetFloat("velocidadeVertical", 0);
@@ -167,7 +162,12 @@ public class Jogador : MonoBehaviour
             oAnimator.SetTrigger("podeEscalar");
             GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = false;
             oRigidBody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
-            this.transform.position = GameObject.Find("PontaDeParede/Ancora").GetComponent<CircleCollider2D>().bounds.center;
+
+            Transform ancoraTransform = oContato.transform.Find("Ancora");
+            if (ancoraTransform != null)
+            {
+                this.transform.position = ancoraTransform.GetComponent<CircleCollider2D>().bounds.center;
+            }
         }
     }
 
@@ -227,7 +227,6 @@ public class Jogador : MonoBehaviour
             oHitboxCollider.enabled = true;
         }
     }
-
 
     private void AjustaHitboxCorpoPersonagem()
     {
