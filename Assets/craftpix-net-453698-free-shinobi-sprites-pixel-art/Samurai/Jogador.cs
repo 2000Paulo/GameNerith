@@ -172,6 +172,7 @@ public class Jogador : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (bTravaParametrosAnimator) { return; }
         if (collision.gameObject.tag.ToUpper() == "GROUND")
         {
             isGrounded = true;
