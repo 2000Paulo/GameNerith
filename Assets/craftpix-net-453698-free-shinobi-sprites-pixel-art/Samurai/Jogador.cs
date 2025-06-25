@@ -157,6 +157,9 @@ public class Jogador : MonoBehaviour
         if (oContato.tag.ToUpper() == "PONTADEPAREDE" && oRigidBody.linearVelocityY > 0)
         {
             if (oContato.gameObject.layer == 12) { oSpriteRenderer.flipX = false; } else { oSpriteRenderer.flipX = true; }
+            oAnimator.SetFloat("inputHorizontal"   , 0);
+            oAnimator.SetFloat("inputVertical"     , 0);
+            oAnimator.SetFloat("velocidadeVertical", 0);
             bTravaParametrosAnimator = true;
             oAnimator.SetTrigger("podeEscalar");
             GameObject.Find("Ground").GetComponent<TilemapCollider2D>().enabled = false;
