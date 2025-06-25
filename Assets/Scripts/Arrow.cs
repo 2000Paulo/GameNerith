@@ -5,6 +5,8 @@ public class Arrow : MonoBehaviour
     public float speed = 5f;
     private Vector2 direction;
 
+    public int damage = 15; // Dano que a flecha causa
+
     public void SetDirection(Vector2 dir)
     {
         direction = dir.normalized;
@@ -19,7 +21,13 @@ public class Arrow : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Aqui você pode colocar lógica para dano no player
+            // âœ… Aplica dano se o Player tiver um script de vida
+            PlayerHealth health = other.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+            }
+
             Destroy(gameObject);
         }
         else if (!other.CompareTag("Enemy"))
