@@ -42,40 +42,30 @@ public class VidaInimigo : MonoBehaviour
 
     private void Morrer()
     {
-        // 1. Desativa a lógica de patrulha para que ele pare de se mover sozinho.
+        // Chama método personalizado se existir (como no arqueiro)
+        SendMessage("CustomDeath", SendMessageOptions.DontRequireReceiver);
+
+        // Lógica padrão de morte – continua funcionando para inimigos comuns
         if (scriptPatrulha != null)
-        {
             scriptPatrulha.enabled = false;
-        }
 
-        // ADICIONE ESTE BLOCO AQUI
-        // 2. Garante que a hitbox de ataque seja desativada.
-        // Isso previne o bug de o inimigo causar dano enquanto já está morto.
         if (scriptPatrulha != null && scriptPatrulha.zonaDeAtaque != null)
-        {
             scriptPatrulha.zonaDeAtaque.SetActive(false);
-        }
-        // FIM DO BLOCO ADICIONADO
 
-        // 3. Muda a layer para "InimigoMorto" para não colidir com o jogador.
         gameObject.layer = LayerMask.NameToLayer("InimigoMorto");
 
-        // 4. Ativa a física para o inimigo cair.
         if (rb != null)
         {
             rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.gravityScale = 0.8f; // Usando o valor que ajustamos antes
-        }
-        
-        // 5. Dispara a animação de morte.
-        if (animator != null)
-        {
-            animator.SetTrigger("Morrer");
+            rb.gravityScale = 0.8f;
         }
 
-        // 6. Destrói o objeto após um tempo.
+        if (animator != null)
+            animator.SetTrigger("Morrer");
+
         Destroy(gameObject, 1f);
     }
+
     // Coroutine para feedback visual de dano (opcional)
     private IEnumerator FeedbackDeDano()
     {

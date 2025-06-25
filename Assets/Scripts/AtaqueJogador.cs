@@ -10,7 +10,7 @@ public class AtaqueJogador : MonoBehaviour
     // 1. Log para ver se a colisão foi detectada.
     Debug.Log("Hitbox colidiu com: " + other.name);
 
-    if (other.gameObject.CompareTag("Inimigo"))
+    if (other.gameObject.CompareTag("Inimigo") || other.gameObject.CompareTag("Enemy"))
     {
         // 2. Log para ver se a tag "Inimigo" foi reconhecida.
         Debug.Log("Objeto com a tag Inimigo detectado!");

@@ -5,6 +5,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("Som")]
     public AudioClip shootSound;
+    public AudioClip deathSound;
     private AudioSource audioSource;
 
     [Header("Movimento")]
@@ -56,6 +57,15 @@ public class EnemyMovement : MonoBehaviour
             _matInstance.SetTexture("_NoiseTex", noiseTexture);
             _matInstance.SetFloat("_Cutoff", 0f);
         }
+
+        // --- IGNORAR COLISÃO ENTRE INIMIGO E PLAYER ---
+        Collider2D enemyCollider = GetComponent<Collider2D>();
+        Collider2D playerCollider = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Collider2D>();
+        
+        if (enemyCollider != null && playerCollider != null)
+        {
+            Physics2D.IgnoreCollision(enemyCollider, playerCollider);
+        }
     }
 
     void Update()
@@ -64,7 +74,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            TriggerDeath();
+            CustomDeath();
             return;
         }
 
@@ -199,12 +209,15 @@ public class EnemyMovement : MonoBehaviour
         animator.SetFloat("Speed", isMoving ? 1f : 0f);
     }
 
-    public void TriggerDeath()
+    public void CustomDeath()
     {
         StopAllCoroutines();
         isShooting = false;
         animator.SetFloat("Speed", 0f);
         rb.simulated = false;
+
+        if (deathSound != null && audioSource != null)
+            audioSource.PlayOneShot(deathSound);
 
         if (_matInstance != null)
             sprite.material = _matInstance;
