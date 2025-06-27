@@ -5,13 +5,13 @@ using UnityEngine.EventSystems;
 public class PauseManager : MonoBehaviour
 {
     public GameObject opcoesUI;
+    public GameObject comandos; // 👈 painel de comandos (imagem)
     private bool isPaused = false;
 
     private static PauseManager instance;
 
     void Awake()
     {
-        // Garante que só exista um PauseManager
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -25,6 +25,9 @@ public class PauseManager : MonoBehaviour
 
         if (opcoesUI != null)
             opcoesUI.SetActive(false);
+
+        if (comandos != null)
+            comandos.SetActive(false);
     }
 
     private void OnDestroy()
@@ -34,23 +37,22 @@ public class PauseManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Destroi se voltar pro menu principal (opcional)
         if (scene.name == "CenaPrincipalD")
         {
             Destroy(gameObject);
         }
 
-        // Tenta reassociar UI se necessário
         if (opcoesUI == null)
-        {
-            opcoesUI = GameObject.Find("OpcoesUI"); // ou o nome do seu painel
-        }
+            opcoesUI = GameObject.Find("OpcoesUI");
 
         Time.timeScale = 1f;
         isPaused = false;
 
         if (opcoesUI != null)
             opcoesUI.SetActive(false);
+
+        if (comandos != null)
+            comandos.SetActive(false);
     }
 
     void Update()
@@ -69,11 +71,14 @@ public class PauseManager : MonoBehaviour
         if (opcoesUI != null)
             opcoesUI.SetActive(false);
 
+        if (comandos != null)
+            comandos.SetActive(false); // 👈 também esconde comandos
+
         Time.timeScale = 1f;
         isPaused = false;
 
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked; // trava cursor no jogo
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void Pause()
@@ -87,7 +92,6 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        // Garante que o EventSystem esteja presente e ativo
         if (EventSystem.current == null)
         {
             GameObject es = new GameObject("EventSystem");
@@ -100,5 +104,12 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("CenaPrincipalD");
+    }
+
+    // 👇 Chamado pelo botão "Listar Comandos"
+    public void MostrarComandos()
+    {
+        if (comandos != null)
+            comandos.SetActive(true);
     }
 }

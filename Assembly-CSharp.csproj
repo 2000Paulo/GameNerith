@@ -75,7 +75,6 @@
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scenes\GameManager.cs" />
     <Compile Include="Assets\Pixel Art Platformer - Village Props v2.3.0\Texture\Feno.cs" />
-    <Compile Include="Assets\Scripts\Globais\EstadoDoJogador.cs" />
     <Compile Include="Assets\Scenes\MenuPrincipal.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\Dialogo\TypeTextAnimation.cs" />
@@ -115,6 +114,7 @@
     <Compile Include="Assets\Fase2\CaixaTexto.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\Scripts\LavaZone.cs" />
+    <Compile Include="Assets\Scripts\ranking\RankingManager.cs" />
     <Compile Include="Assets\Fase2\ShurikenDamage.cs" />
     <Compile Include="Assets\Pixel Art Platformer - Village Props v2.3.0\FallingPlatform.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
@@ -150,6 +150,7 @@
     <Compile Include="Assets\Scripts\VidaInimigo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\Scripts\PortalFinal.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\Fase2\PlataformaMovel.cs" />
     <Compile Include="Assets\Fase 4\PixelPlatformerSet1v.1.1\Anim\AtivadorDeLuminaria.cs" />

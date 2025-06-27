@@ -4,32 +4,25 @@ using TMPro;
 public class PontuacaoUI : MonoBehaviour
 {
     public TextMeshProUGUI textoPontos;
-    private int pontos = 0;
 
     void Start()
     {
-        // Carrega pontuação salva, se existir
-        pontos = EstadoDoJogador.pontuacaoAtual;
         AtualizarTexto();
     }
 
     public void AdicionarPontos(int quantidade)
     {
-        pontos += quantidade;
-
-        // Atualiza pontuação global
-        EstadoDoJogador.pontuacaoAtual = pontos;
-
+        GameManager.instance.AdicionarPontos(quantidade);
         AtualizarTexto();
     }
 
     private void AtualizarTexto()
     {
-        textoPontos.text = "Pontos: " + pontos;
+        textoPontos.text = "Pontos: " + GameManager.instance.pontuacaoAtual;
     }
 
     public int GetPontos()
     {
-        return pontos;
+        return GameManager.instance.pontuacaoAtual;
     }
 }

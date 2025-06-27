@@ -11,7 +11,12 @@ public class BatEnimie : MonoBehaviour
     public float returnToSleepTime = 1.5f;
 
     [Header("Hitbox de Dano")]
-    public GameObject zonaDeAtaque; // ← arraste aqui seu filho com o collider
+    public GameObject zonaDeAtaque;
+
+    [Header("Áudio")]
+    public AudioSource audioSource;
+    public AudioClip flySound;
+    public AudioClip attackSound;
 
     private Vector3 sleepPosition;
     private Transform player;
@@ -31,7 +36,7 @@ public class BatEnimie : MonoBehaviour
         animator = GetComponent<Animator>();
 
         if (zonaDeAtaque != null)
-            zonaDeAtaque.SetActive(false); // garante que começa desativada
+            zonaDeAtaque.SetActive(false);
 
         animator.Play("BatSleep");
     }
@@ -60,6 +65,10 @@ public class BatEnimie : MonoBehaviour
         animator.SetTrigger("Wake");
         yield return new WaitForSeconds(0.5f);
         animator.Play("BatFly");
+
+        // 🔊 Toca som de voo
+        if (flySound != null && audioSource != null)
+            audioSource.PlayOneShot(flySound);
 
         yield return new WaitForSeconds(2f);
 
@@ -102,7 +111,6 @@ public class BatEnimie : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        // 🔥 Ativa a hitbox de ataque
         if (zonaDeAtaque != null)
             zonaDeAtaque.SetActive(true);
 
@@ -114,9 +122,13 @@ public class BatEnimie : MonoBehaviour
 
         spriteRenderer.flipX = goingLeft;
         animator.SetTrigger("Attack");
+
+        // 🔊 Toca som de ataque
+        if (attackSound != null && audioSource != null)
+            audioSource.PlayOneShot(attackSound);
+
         yield return new WaitForSeconds(0.4f);
 
-        // 🧊 Desativa a hitbox após o ataque
         if (zonaDeAtaque != null)
             zonaDeAtaque.SetActive(false);
 

@@ -7,6 +7,9 @@ public class Feno : MonoBehaviour
     private Rigidbody2D jogadorRb;
     private bool tremendo = false;
 
+    [Header("Som de Feno")]
+    public AudioSource fenoAudio;
+
     private void Start()
     {
         posicaoOriginal = transform.localPosition;
@@ -36,6 +39,10 @@ public class Feno : MonoBehaviour
             jogadorRb = null;
             tremendo = false;
             transform.localPosition = posicaoOriginal;
+
+            // 🔇 Para o som
+            if (fenoAudio != null && fenoAudio.isPlaying)
+                fenoAudio.Stop();
         }
     }
 
@@ -55,14 +62,21 @@ public class Feno : MonoBehaviour
         {
             if (jogadorDentro != null && jogadorRb != null && jogadorRb.linearVelocity.magnitude > 0.1f)
             {
-                // Frequência e amplitude mais suaves
                 float offsetX = Mathf.Sin(Time.time * 10f) * 0.02f;
                 float offsetY = Mathf.Cos(Time.time * 12f) * 0.015f;
                 transform.localPosition = posicaoOriginal + new Vector3(offsetX, offsetY, 0f);
+
+                // 🔊 Toca o som se ainda não estiver tocando
+                if (fenoAudio != null && !fenoAudio.isPlaying)
+                    fenoAudio.Play();
             }
             else
             {
                 transform.localPosition = posicaoOriginal;
+
+                // 🔇 Para o som
+                if (fenoAudio != null && fenoAudio.isPlaying)
+                    fenoAudio.Stop();
             }
 
             yield return null;
